@@ -1,4 +1,4 @@
-import { TenderItem } from "@/types";
+import { TenderItem } from "@/types"
 
 import {
   Table,
@@ -10,13 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { formatCurrency } from "@/lib/utils";
-
-
-
-
-
-
+import { formatCurrency } from "@/lib/utils"
 
 export default function ItemsTable({
   items,
@@ -26,11 +20,9 @@ export default function ItemsTable({
   canUpdate?: boolean
 }) {
   return (
-    <div className="border rounded-lg">
+    <div className="border rounded-lg" id="tender-items">
       <Table>
-        <TableCaption>
-          A list of items in this tender.
-        </TableCaption>
+        <TableCaption>A list of items in this tender.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-fit">#</TableHead>
@@ -48,16 +40,14 @@ export default function ItemsTable({
             <TableRow key={item.id}>
               <TableCell className="w-fit">{i + 1}</TableCell>
               <TableCell>{item.name}</TableCell>
-              <TableCell>{item.description || '...'}</TableCell>
+              <TableCell>{item.description || "..."}</TableCell>
               <TableCell>{item.unit}</TableCell>
               <TableCell>{formatCurrency(item.amount)}</TableCell>
               <TableCell>{item.quantity}</TableCell>
-              <TableCell className="">{
-                formatCurrency(item.amount * item.quantity)
-              }</TableCell>
               <TableCell className="">
-                ...
+                {formatCurrency(item.amount * item.quantity)}
               </TableCell>
+              <TableCell className="">...</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -66,7 +56,10 @@ export default function ItemsTable({
             <TableCell colSpan={6}>Total</TableCell>
             <TableCell className="" colSpan={2}>
               {formatCurrency(
-                items.reduce((acc, item) => acc + item.amount * item.quantity, 0)
+                items.reduce(
+                  (acc, item) => acc + item.amount * item.quantity,
+                  0
+                )
               )}
             </TableCell>
           </TableRow>

@@ -1,6 +1,4 @@
-import { z } from "zod";
-
-
+import { z } from "zod"
 
 export const CreateTenderSchema = z.object({
   name: z.string(),
@@ -17,7 +15,6 @@ export const CreateTenderItemSchema = z.object({
   quantity: z.number(),
 })
 
-
 export const CreateObligationSchema = z.object({
   budget: z.string(),
   tender: z.string().optional(),
@@ -27,4 +24,12 @@ export const CreateObligationSchema = z.object({
   notes: z.string().optional(),
   date: z.string(),
   file: z.instanceof(File).optional(),
+})
+
+export const UploadDocumentSchema = z.object({
+  target: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  file: z.any(),
+  currentPath: z.string().optional(),
 })

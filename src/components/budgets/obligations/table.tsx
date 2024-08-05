@@ -1,13 +1,19 @@
-
-import { formatCurrency, formatDate } from '@/lib/utils'
-import { Obligation } from '@/types'
-import { Table, TableCaption, TableHeader, TableRow, TableHead, TableCell, TableBody, TableFooter } from '@/components/ui/table'
-import { FileIcon } from '@radix-ui/react-icons'
-
-
+import { formatCurrency, formatDate } from "@/lib/utils"
+import { Obligation } from "@/types"
+import {
+  Table,
+  TableCaption,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  TableFooter,
+} from "@/components/ui/table"
+import { FileIcon } from "@radix-ui/react-icons"
 
 export default function ObligationsTable({
-  obligations
+  obligations,
 }: {
   obligations: Obligation[]
 }) {
@@ -27,7 +33,6 @@ export default function ObligationsTable({
             <TableHead>Notes</TableHead>
             <TableHead>Document</TableHead>
             <TableHead className="">User</TableHead>
-            <TableHead className=""></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -38,8 +43,10 @@ export default function ObligationsTable({
               <TableCell>{formatCurrency(obligation.cost)}</TableCell>
               <TableCell>{formatCurrency(obligation.cash)}</TableCell>
               <TableCell>{formatDate(obligation.date)}</TableCell>
-              <TableCell>{obligation.notes || 'N/A'}</TableCell>
-              <TableCell>{obligation.document ? <FileIcon /> : 'N/A'}</TableCell>
+              <TableCell>{obligation.notes || "N/A"}</TableCell>
+              <TableCell>
+                {obligation.document ? <FileIcon /> : "N/A"}
+              </TableCell>
               <TableCell>{obligation.expand?.user.name}</TableCell>
             </TableRow>
           ))}
@@ -47,11 +54,15 @@ export default function ObligationsTable({
         <TableFooter>
           <TableRow>
             <TableCell colSpan={2}>Total</TableCell>
-            <TableCell >
-              {formatCurrency(obligations.reduce((acc, cur) => acc + cur.cost, 0))}
+            <TableCell>
+              {formatCurrency(
+                obligations.reduce((acc, cur) => acc + cur.cost, 0)
+              )}
             </TableCell>
-            <TableCell >
-              {formatCurrency(obligations.reduce((acc, cur) => acc + cur.cash, 0))}
+            <TableCell>
+              {formatCurrency(
+                obligations.reduce((acc, cur) => acc + cur.cash, 0)
+              )}
             </TableCell>
             <TableCell colSpan={4}></TableCell>
           </TableRow>

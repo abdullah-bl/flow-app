@@ -1,15 +1,30 @@
-import { Hero } from "@/components/layout/hero";
-import { getTender } from "@/data/tenders";
-import { ArchiveIcon, FileIcon, InfoCircledIcon, ListBulletIcon, Pencil1Icon, PieChartIcon, TrashIcon } from "@radix-ui/react-icons";
-import { Link } from "next-view-transitions";
-import { redirect } from "next/navigation";
-
-
-
+import { CustomLink } from "@/components/custom/link"
+import { Hero } from "@/components/layout/hero"
+import { getTender } from "@/data/tenders"
+import {
+  IconTrendingChart2,
+  IconArchive,
+  IconChainLink,
+  IconListBullets,
+  IconInboxFill,
+  IconInbox,
+  IconFolderPaper,
+} from "@irsyadadl/paranoid"
+import {
+  ArchiveIcon,
+  FileIcon,
+  InfoCircledIcon,
+  ListBulletIcon,
+  Pencil1Icon,
+  PieChartIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons"
+import { Link } from "next-view-transitions"
+import { redirect } from "next/navigation"
 
 export default async function TenderDetailsLayout({
   children,
-  params: { id }
+  params: { id },
 }: {
   children: React.ReactNode
   params: { id: string }
@@ -21,37 +36,49 @@ export default async function TenderDetailsLayout({
   }
 
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-6 flex-1">
       <Hero>
-        <h1 className="text-2xl font-semibold">
-          {tender.name}
-        </h1>
+        <h1 className="text-2xl font-semibold">{tender.name}</h1>
         <p className="text-sm text-gray-500">Details of the tender.</p>
       </Hero>
-      <nav className="flex items-center justify-start gap-4 flex-nowrap overflow-scroll">
-        <Link href={`/tenders/${tender.id}`} className="flex flex-col gap-2 border rounded-lg p-4 min-w-40">
-          <InfoCircledIcon />
+      <nav className="flex items-center justify-start gap-3 flex-nowrap overflow-scroll">
+        <CustomLink
+          href={`/tenders/${tender.id}`}
+          className="flex p-4 flex-col gap-2 border rounded-lg min-w-40"
+        >
+          <IconInbox />
           Info
-        </Link>
-        <Link href={`/tenders/${tender.id}/items`} className="flex flex-col gap-2 border rounded-lg p-4 min-w-40">
-          <ListBulletIcon />
+        </CustomLink>
+        <CustomLink
+          href={`/tenders/${tender.id}/items`}
+          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+        >
+          <IconListBullets />
           Items
-        </Link>
-        <Link href={`/tenders/${tender.id}/obligations`} className="flex flex-col gap-2 border rounded-lg p-4 min-w-40">
-          <PieChartIcon />
+        </CustomLink>
+        <CustomLink
+          href={`/tenders/${tender.id}/obligations`}
+          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+        >
+          <IconChainLink />
           Obligations
-        </Link>
-        <Link href={`/tenders/${tender.id}/documents`} className="flex flex-col gap-2 border rounded-lg p-4 min-w-40">
-          <ArchiveIcon />
+        </CustomLink>
+        <CustomLink
+          href={`/tenders/${tender.id}/documents`}
+          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+        >
+          <IconFolderPaper />
           Documents
-        </Link>
-        <Link href={`/tenders/${tender.id}/history`} className="flex flex-col gap-2 border rounded-lg p-4 min-w-40">
-          <FileIcon />
+        </CustomLink>
+        <CustomLink
+          href={`/tenders/${tender.id}/history`}
+          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+        >
+          <IconArchive />
           History
-        </Link>
+        </CustomLink>
       </nav>
       {children}
     </div>
   )
-
 }
