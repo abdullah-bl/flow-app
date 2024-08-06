@@ -10,20 +10,20 @@ export async function generate(
 ) {
   const stream = createStreamableValue("")
 
-  ;(async () => {
-    const { textStream } = await streamText({
-      model: ollama("llama3.1"),
-      prompt: input,
-      system: system,
-      temperature: 0.5,
-    })
+    ; (async () => {
+      const { textStream } = await streamText({
+        model: ollama("qwen2:0.5b"),
+        prompt: input,
+        system: system,
+        temperature: 0.5,
+      })
 
-    for await (const delta of textStream) {
-      stream.update(delta)
-    }
+      for await (const delta of textStream) {
+        stream.update(delta)
+      }
 
-    stream.done()
-  })()
+      stream.done()
+    })()
 
   return { output: stream.value }
 }

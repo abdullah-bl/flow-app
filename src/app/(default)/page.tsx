@@ -15,10 +15,9 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-4  flex-1 ">
       <Hero>
-        <h1 className="text-3xl font-bold">Welcome to Follow UP</h1>
+        <h1 className="text-3xl font-bold">Follow UP</h1>
         <p className="text-lg">
-          The way to manage your tenders, contracts, invoices, budgets, reports
-          and settings.
+          The way to manage your tenders, contracts, and more.
         </p>
       </Hero>
       <div className="grid grid-cols-4 gap-4 p-2">

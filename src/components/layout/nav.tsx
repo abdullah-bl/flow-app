@@ -1,14 +1,7 @@
 "use client"
 
-import { IconSunrise } from "@irsyadadl/paranoid"
-import {
-  ColorWheelIcon,
-  CubeIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowUpIcon,
-  TokensIcon,
-  TriangleUpIcon,
-} from "@radix-ui/react-icons"
+import { IconBrandLinktree } from "@irsyadadl/paranoid"
+
 import { Link } from "next-view-transitions"
 import { usePathname, useRouter } from "next/navigation"
 
@@ -21,7 +14,7 @@ export default function Navbar() {
         href={"/"}
         className="text-lg font-bold hover:italic transition-all duration-100"
       >
-        <IconSunrise />
+        <IconBrandLinktree />
       </Link>
       <button
         hidden={pathname == "/"}

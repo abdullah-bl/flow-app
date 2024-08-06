@@ -82,8 +82,10 @@ export function TendersTable({
   }
 
   const print = () => {
-    const table = document.querySelector("table")
+    const table = document.querySelector("#tenders-table")
     const w = window.open()
+    w?.document.write("<title>Tenders</title>")
+    w?.document.write("<h3 class='font-bold text-lg mb-4'>Tenders</h3>")
     w?.document.write(table?.outerHTML || "")
     // add css from url
     w?.document.write(`
@@ -134,7 +136,7 @@ export function TendersTable({
           </a>
         </div>
       </div>
-      <div className="border rounded-lg px-2">
+      <div className="border rounded-lg px-2" id="tenders-table">
         <Table>
           <TableCaption>
             A list of all available tenders

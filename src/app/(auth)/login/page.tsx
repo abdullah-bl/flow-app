@@ -13,22 +13,17 @@ export default function LoginPage() {
     e.preventDefault()
     try {
       const form = e.currentTarget
-      const data = new FormData(form)
-      const { success, message } = await auth.login(data)
-      if (success) {
-        toast({
-          title: 'Login successful',
-          description: 'You have successfully logged in',
-        })
-        setTimeout(() => {
-          window.location.href = '/'
-        }, 800)
-      } else {
-        toast({
-          title: 'Login failed',
-          description: message,
-        })
-      }
+      await auth.login({
+        username: form.username.value,
+        password: form.password.value,
+      })
+      toast({
+        title: 'Login successful',
+        description: 'You are now logged in, redirecting...',
+      })
+      setTimeout(() => {
+        window.location.href = '/'
+      }, 800)
     } catch (error) {
       console.error(error)
       toast({
@@ -43,7 +38,7 @@ export default function LoginPage() {
       <h3 className="font-medium text-lg">
         Login to your account
       </h3>
-      <form className="grid gap-2 w-[350px]" onSubmit={handleSubmit}>
+      <form method="post" className="grid gap-2 w-[350px]" onSubmit={handleSubmit}>
         <Label htmlFor="username">Username</Label>
         <Input type="username" id="username" name="username" required />
         <Label htmlFor="password">Password</Label>

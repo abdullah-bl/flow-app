@@ -67,7 +67,7 @@ export default function CreateTenderForm() {
   }
 
   return (
-    <form className="grid gap-2 container" onSubmit={handleSubmit}>
+    <form className="grid gap-2 container mx-0 max-w-4xl" onSubmit={handleSubmit}>
       <Label htmlFor="name">Name (*)</Label>
       <Input
         name="name"
@@ -87,6 +87,23 @@ export default function CreateTenderForm() {
         required
         defaultValue={0}
         min={0}
+      />
+      <Label htmlFor="duration">Duration</Label>
+      <Input
+        name="duration"
+        id="duration"
+        type="number"
+        placeholder="Enter tender duration..."
+        required
+        defaultValue={0}
+        min={0}
+      />
+      <Label htmlFor="location">Location</Label>
+      <Textarea
+        name="location"
+        id="location"
+        placeholder="Enter tender location..."
+        required
       />
       <div className="flex items-center justify-between">
         <Label htmlFor="scope">Scope of Work</Label>
