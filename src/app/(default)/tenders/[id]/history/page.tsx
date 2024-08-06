@@ -1,4 +1,12 @@
-export default async function History() {
+import TableSkeleton from "@/components/custom/table.skeleton"
+import HistoryTable from "@/components/history/table"
+import { Suspense } from "react"
+
+export default async function History({
+  params: { id },
+}: {
+  params: { id: string }
+}) {
   return (
     <div className="grid gap-4">
       <div className="grid gap-1">
@@ -7,6 +15,10 @@ export default async function History() {
           A list of history in this tender.
         </p>
       </div>
+
+      <Suspense fallback={<TableSkeleton />}>
+        <HistoryTable target={id} />
+      </Suspense>
     </div>
   )
 }

@@ -5,22 +5,33 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-
-
 export const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat('en-SA', {
-    style: 'currency',
-    currency: 'SAR',
+  return new Intl.NumberFormat("en-SA", {
+    style: "currency",
+    currency: "SAR",
   }).format(value)
 }
 
-
 export const formatDate = (date: string | Date | undefined) => {
-  return date ? new Date(date).toLocaleDateString('en-SA', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }) : "N/A"
+  return date
+    ? new Date(date).toLocaleDateString("en-SA", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A"
+}
+
+export const formatDateTime = (date: string | Date | undefined) => {
+  return date
+    ? new Date(date).toLocaleString("en-SA", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      })
+    : "N/A"
 }
 
 //  how many days between two dates

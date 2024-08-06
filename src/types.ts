@@ -133,3 +133,14 @@ export type Obligation = RecordModel & {
     contract: Contract
   }
 }
+
+export type History = RecordModel & {
+  user: string
+  action: "CREATE" | "UPDATE" | "DELETE"
+  target: string
+  note: string
+  createdAt: string
+  expand?: {
+    user: User
+  }
+}
