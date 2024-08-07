@@ -1,4 +1,10 @@
-import { IconTrendingChart2, IconFolderPaper, IconFolderBox, IconLayers, IconBag } from "@irsyadadl/paranoid"
+import {
+  IconTrendingChart2,
+  IconFolderPaper,
+  IconFolderBox,
+  IconLayers,
+  IconBag,
+} from "@irsyadadl/paranoid"
 import { Hero } from "@/components/layout/hero"
 import {
   BackpackIcon,
@@ -15,8 +21,8 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-4  flex-1 ">
       <Hero>
-        <h1 className="text-3xl font-bold">Follow UP</h1>
-        <p className="text-lg">
+        <h3 className="text-5xl font-semibold  uppercase ">Follow UP</h3>
+        <p className="text-sm text-stone-500">
           The way to manage your tenders, contracts, and more.
         </p>
       </Hero>

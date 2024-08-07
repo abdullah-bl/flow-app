@@ -3,7 +3,11 @@ import DateCard from "@/components/custom/date.card"
 import { getTender } from "@/data/tenders"
 import { daysBetween, formatCurrency } from "@/lib/utils"
 import { Tender } from "@/types"
-import { IconCurrencyDollar, IconPerson, IconPersonAdd } from "@irsyadadl/paranoid"
+import {
+  IconCurrencyDollar,
+  IconPerson,
+  IconPersonAdd,
+} from "@irsyadadl/paranoid"
 import { PieChartIcon, QuestionMarkCircledIcon } from "@radix-ui/react-icons"
 import Markdown from "react-markdown"
 
@@ -90,30 +94,21 @@ export default async function TenderDetails({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div className="p-4 border rounded-lg h-fit">
           <div className="grid">
-
-            <h3 className="font-medium text-lg">
-              Tender Details
-            </h3>
+            <h3 className="font-medium text-lg">Tender Details</h3>
             <span className="text-sm text-stone-500">
               Here are some details about the tender.
             </span>
           </div>
           <div className="grid grid-cols-2">
-            <span className="font-medium">
-              Number:
-            </span>
-            <span className="font-medium">{tender.number || 'N/A'}</span>
-            <span className="font-medium">
-              Reference:
-            </span>
-            <span className="font-medium">{tender.reference || 'N/A'}</span>
+            <span className=" font-normal ">Number</span>
+            <span className="font-normal">{tender.number || "N/A"}</span>
+            <span className=" font-normal ">Reference</span>
+            <span className="font-normal">{tender.reference || "N/A"}</span>
           </div>
         </div>
         <div className="p-4 border rounded-lg h-fit">
           <div className="flex items-center justify-between">
-            <h3 className="font-medium w-full text-lg">
-              Members
-            </h3>
+            <h3 className="font-medium w-full text-lg">Members</h3>
             <IconPersonAdd width={22} height={22} />
           </div>
           ....
@@ -125,18 +120,16 @@ export default async function TenderDetails({
             <span className="font-medium">Scope of Work</span>
             <Copy content={tender.scope} />
           </summary>
-          <Markdown className={"p-2"}>{tender.scope || 'N/A'}</Markdown>
+          <Markdown className={"p-2"}>{tender.scope || "N/A"}</Markdown>
         </details>
         <details className="border rounded-lg">
           <summary className="flex items-center justify-between gap-2 px-2 py-2 bg-stone-100">
             <span className="font-medium">Terms and Conditions</span>
             <Copy content={tender.terms} />
           </summary>
-          <Markdown className={"p-2"}>{tender.terms || 'N/A'}</Markdown>
+          <Markdown className={"p-2"}>{tender.terms || "N/A"}</Markdown>
         </details>
       </div>
-
     </div>
-
   )
 }

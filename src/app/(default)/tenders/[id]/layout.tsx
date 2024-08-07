@@ -2,25 +2,26 @@ import { CustomLink } from "@/components/custom/link"
 import { Hero } from "@/components/layout/hero"
 import { getTender } from "@/data/tenders"
 import {
-  IconTrendingChart2,
   IconArchive,
   IconChainLink,
   IconListBullets,
-  IconInboxFill,
   IconInbox,
   IconFolderPaper,
 } from "@irsyadadl/paranoid"
-import {
-  ArchiveIcon,
-  FileIcon,
-  InfoCircledIcon,
-  ListBulletIcon,
-  Pencil1Icon,
-  PieChartIcon,
-  TrashIcon,
-} from "@radix-ui/react-icons"
-import { Link } from "next-view-transitions"
-import { notFound, redirect } from "next/navigation"
+import { Metadata } from "next"
+import { notFound } from "next/navigation"
+
+export async function generateMetadata({
+  params: { id },
+}: {
+  params: { id: string }
+}): Promise<Metadata> {
+  const product = await getTender(id)
+  return {
+    title: product?.name || "Tender Details",
+    description: product?.scope || "Details of the tender.",
+  }
+}
 
 export default async function TenderDetailsLayout({
   children,

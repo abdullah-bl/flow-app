@@ -19,15 +19,23 @@ export default function CreateTenderForm() {
   const [terms, setTerms] = useState("")
 
   const handleGenerate = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const inputName = e.currentTarget.name
-    const { output } = await generate(
-      `based on tender name "${name}" generate ${inputName} for me, do not repeat content, and do not be too long`
-    )
-    for await (const delta of readStreamableValue(output)) {
-      if (inputName === "scope")
-        setScope((currentScope) => `${currentScope}${delta}`)
-      if (inputName === "terms")
-        setTerms((currentTerms) => `${currentTerms}${delta}`)
+    try {
+      const inputName = e.currentTarget.name
+      const { output } = await generate(
+        `based on tender name "${name}" generate ${inputName} for me, do not repeat content, and do not be too long`
+      )
+      for await (const delta of readStreamableValue(output)) {
+        if (inputName === "scope")
+          setScope((currentScope) => `${currentScope}${delta}`)
+        if (inputName === "terms")
+          setTerms((currentTerms) => `${currentTerms}${delta}`)
+      }
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "AI generation failed",
+        description: "Failed to generate content from AI",
+      })
     }
   }
 
@@ -67,7 +75,10 @@ export default function CreateTenderForm() {
   }
 
   return (
-    <form className="grid gap-2 container mx-0 max-w-4xl" onSubmit={handleSubmit}>
+    <form
+      className="grid gap-2 container mx-0 max-w-4xl"
+      onSubmit={handleSubmit}
+    >
       <Label htmlFor="name">Name (*)</Label>
       <Input
         name="name"
@@ -113,6 +124,7 @@ export default function CreateTenderForm() {
           size={"sm"}
           name="scope"
           onClick={handleGenerate}
+          disabled={!name || name.trim().length < 12}
         >
           Generate Scope
         </Button>
@@ -132,6 +144,7 @@ export default function CreateTenderForm() {
           size={"sm"}
           name="terms"
           onClick={handleGenerate}
+          disabled={!name || name.trim().length < 12}
         >
           Generate Terms
         </Button>
