@@ -10,5 +10,5 @@ export const getUserFromSession = () => {
   const session = cookies().get("pb_auth")
   if (!session) return null
   client.authStore.loadFromCookie(`${session.value}`)
-  return client.authStore.isValid ? client.authStore.model : null as unknown as User
+  return client.authStore.isValid ? client.authStore.model as User : null
 }

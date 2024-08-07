@@ -2,6 +2,7 @@
 
 import { client } from "@/lib/client"
 import { actionClient } from "@/lib/safe-action"
+import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { z } from "zod"
@@ -50,3 +51,10 @@ export const login = actionClient
       return { success: false, message: "Login failed" };
     }
   });
+
+
+export const logout = async () => {
+  client.authStore.clear();
+  cookies().delete("pb_auth");
+  return { success: true, message: "Logout successful" };
+}

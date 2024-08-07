@@ -20,7 +20,7 @@ import {
   TrashIcon,
 } from "@radix-ui/react-icons"
 import { Link } from "next-view-transitions"
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 
 export default async function TenderDetailsLayout({
   children,
@@ -32,14 +32,14 @@ export default async function TenderDetailsLayout({
   const tender = await getTender(id)
 
   if (!tender) {
-    return redirect("/404")
+    return notFound()
   }
 
   return (
     <div className="grid gap-6 flex-1">
       <Hero>
         <h1 className="text-2xl font-semibold">{tender.name}</h1>
-        <p className="text-sm text-gray-500">Details of the tender.</p>
+        <p className="text-sm text-stone-500">Details of the tender.</p>
       </Hero>
       <nav className="flex items-center justify-start gap-3 flex-nowrap overflow-scroll">
         <CustomLink

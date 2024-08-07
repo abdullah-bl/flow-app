@@ -1,4 +1,4 @@
-import { IconTrendingChart2 } from "@irsyadadl/paranoid"
+import { IconTrendingChart2, IconFolderPaper, IconFolderBox, IconLayers, IconBag } from "@irsyadadl/paranoid"
 import { Hero } from "@/components/layout/hero"
 import {
   BackpackIcon,
@@ -25,7 +25,7 @@ export default function Home() {
           href="/tenders"
           className="bg-white/70 border col-span-1 rounded-lg p-3 flex flex-col gap-5  shadow-sm hover:shadow-md"
         >
-          <LayersIcon width={22} height={22} />
+          <IconLayers width={22} height={22} />
           <span className="flex-1 w-full text-justify ">
             View Tenders &rarr;
           </span>
@@ -34,7 +34,7 @@ export default function Home() {
           href="/contracts"
           className="bg-white/70 border rounded-lg p-3 flex flex-col gap-5  shadow-sm hover:shadow-md"
         >
-          <FileTextIcon width={22} height={22} />
+          <IconFolderBox width={22} height={22} />
           <span className="flex-1 w-full text-justify ">
             View Contracts &rarr;
           </span>
@@ -52,7 +52,7 @@ export default function Home() {
           href="/souq"
           className="bg-white/70 border rounded-lg p-3 flex flex-col gap-5  shadow-sm hover:shadow-md"
         >
-          <BackpackIcon width={22} height={22} />
+          <IconBag width={22} height={22} />
           <span className="flex-1 w-full text-justify ">View Souq &rarr;</span>
         </Link>
         <Link
@@ -71,6 +71,15 @@ export default function Home() {
           <ReaderIcon width={22} height={22} />
           <span className="flex-1 w-full text-justify ">
             View Reports &rarr;
+          </span>
+        </Link>
+        <Link
+          href="/templates"
+          className="bg-white/70 border rounded-lg p-3 flex flex-col gap-5  shadow-sm hover:shadow-md"
+        >
+          <IconFolderPaper width={22} height={22} />
+          <span className="flex-1 w-full text-justify ">
+            View Templates &rarr;
           </span>
         </Link>
         <Link

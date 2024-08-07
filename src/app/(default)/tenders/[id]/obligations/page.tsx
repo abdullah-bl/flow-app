@@ -17,7 +17,7 @@ export default async function Obligations({
         <div className="grid gap-1">
           <h3 className="text-2xl font-medium">Obligations</h3>
 
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-stone-500">
             A list of obligations in this tender.
           </p>
         </div>

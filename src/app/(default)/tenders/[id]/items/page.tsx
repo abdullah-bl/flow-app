@@ -14,7 +14,7 @@ export default async function TenderItemsPage({
       <div className="flex justify-between items-center">
         <div className="grid gap-0">
           <h3 className="text-2xl font-medium">Items</h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-stone-500">
             A list of items in this tender.
           </p>
         </div>

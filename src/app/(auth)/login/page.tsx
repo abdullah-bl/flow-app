@@ -34,15 +34,23 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="grid gap-4  min-h-full border rounded-lg shadow-sm p-4 bg-white/70">
-      <h3 className="font-medium text-lg">
-        Login to your account
+    <div className="grid gap-2 shadow-md hover:shadow-lg min-h-full border rounded-lg p-8 bg-white/70">
+      <h3 className="font-bold text-xl -mb-2">
+        Follow UP
       </h3>
+      <span className="font-medium mb-2 text-stone-700">
+        Login to your account
+      </span>
       <form method="post" className="grid gap-2 w-[350px]" onSubmit={handleSubmit}>
         <Label htmlFor="username">Username</Label>
-        <Input type="username" id="username" name="username" required />
+        <Input type="username" id="username" name="username" required
+          placeholder="Write your username"
+        />
         <Label htmlFor="password">Password</Label>
-        <Input type="password" id="password" name="password" required />
+        <Input type="password" id="password" name="password" required
+          placeholder="Write your password"
+          minLength={4}
+        />
         <Button type="submit" className="flex items-center justify-between">
           <span className="flex-1">
             Login
@@ -50,6 +58,7 @@ export default function LoginPage() {
           &rarr;
         </Button>
       </form>
+
     </div>
   )
 }

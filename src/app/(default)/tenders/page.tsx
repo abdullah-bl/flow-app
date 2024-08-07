@@ -9,7 +9,7 @@ export default async function Page() {
     <div className="grid gap-4">
       <Hero>
         <h1 className="text-2xl font-semibold">Tenders</h1>
-        <p className="text-sm text-gray-500">A list of your recent tenders.</p>
+        <p className="text-sm text-stone-500">A list of your recent tenders.</p>
       </Hero>
       <TendersTable tenders={tenders} />
     </div>
