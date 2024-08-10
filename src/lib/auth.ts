@@ -1,14 +1,12 @@
+"use server"
+
 import { cookies } from "next/headers"
 import { client } from "./client"
 import { User } from "@/types"
 
-
-
-
-
-export const getUserFromSession = () => {
-  const session = cookies().get("pb_auth")
+export const getUserFromSession = async () => {
+  const session = cookies().get("session")
   if (!session) return null
   client.authStore.loadFromCookie(`${session.value}`)
-  return client.authStore.isValid ? client.authStore.model as User : null
+  return client.authStore.isValid ? (client.authStore.model as User) : null
 }

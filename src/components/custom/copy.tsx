@@ -29,8 +29,11 @@ export const Copy = ({ content }: { content: string }) => {
       variant={"outline"}
     >
       <CopyIcon />
-      <span>Copy</span>
-      {copied && <span>Copied!</span>}
+      {copied ? (
+        <span className="text-sm">Copied!</span>
+      ) : (
+        <span className="text-sm">Copy to clipboard</span>
+      )}
     </Button>
   )
 }

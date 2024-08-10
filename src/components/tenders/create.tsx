@@ -14,21 +14,39 @@ import { readStreamableValue } from "ai/rsc"
 
 export default function CreateTenderForm() {
   const { toast } = useToast()
-  const [name, setName] = useState("")
-  const [scope, setScope] = useState("")
-  const [terms, setTerms] = useState("")
+  const [form, setForm] = useState({} as Record<string, string>)
 
   const handleGenerate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       const inputName = e.currentTarget.name
       const { output } = await generate(
-        `based on tender name "${name}" generate ${inputName} for me, do not repeat content, and do not be too long`
+        `
+          tender name: ${form.name}
+          tender cost: ${form.cost}
+          tender duration: ${form.duration}
+          tender location: ${form.location}
+          Generate ${inputName} for the tender.
+          With the following constraints:
+          - no repeating content.
+          - not too long.
+          - be creative.
+          - use clear and concise language.
+          - make sure the content is unique.
+          - should be relevant to the tender.
+          - should be professional.
+        `
       )
       for await (const delta of readStreamableValue(output)) {
         if (inputName === "scope")
-          setScope((currentScope) => `${currentScope}${delta}`)
+          setForm((currentForm) => ({
+            ...currentForm,
+            scope: `${currentForm.scope}${delta}`,
+          }))
         if (inputName === "terms")
-          setTerms((currentTerms) => `${currentTerms}${delta}`)
+          setForm((currentForm) => ({
+            ...currentForm,
+            terms: `${currentForm.terms}${delta}`,
+          }))
       }
     } catch (error) {
       console.error(error)
@@ -43,28 +61,25 @@ export default function CreateTenderForm() {
     e.preventDefault()
     try {
       const form = e.currentTarget
-      let tender = Object.fromEntries(new FormData(form).entries()) as any
-      tender.cost = Number(tender.cost)
-      const { success, message, data } = await tenders.create(tender)
-      console.log(success, message)
-      if (success) {
-        toast({
-          title: "Tender created",
-          description: "You have successfully created a tender",
-          action: (
-            <ToastAction altText="View Tender">
-              <Link href={`/tenders/${data?.id}`}>View Tenders</Link>
-            </ToastAction>
-          ),
-        })
-        form.reset()
-        // setTenderItems([])
-      } else {
+      const data = new FormData(form)
+      const result = await tenders.create(data)
+      if (result?.validationErrors) {
         toast({
           title: "Tender creation failed",
-          description: `Failed to create tender: ${message}`,
+          description: "Please check the form for errors",
         })
       }
+      toast({
+        title: "Tender created",
+        description: "You have successfully created a tender",
+        action: (
+          <ToastAction altText="View Tender">
+            <Link href={`/tenders/${result?.data?.data?.id}`}>View</Link>
+          </ToastAction>
+        ),
+      })
+      setForm({})
+      form.reset()
     } catch (error) {
       console.error(error)
       toast({
@@ -76,7 +91,8 @@ export default function CreateTenderForm() {
 
   return (
     <form
-      className="grid gap-2 container mx-0 max-w-4xl"
+      method="post"
+      className="grid gap-2 container mx-0"
       onSubmit={handleSubmit}
     >
       <Label htmlFor="name">Name (*)</Label>
@@ -86,29 +102,31 @@ export default function CreateTenderForm() {
         type="text"
         placeholder="Enter tender name..."
         required
-        onChange={(e) => setName(e.target.value)}
-        value={name}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+        value={form.name}
       />
-      <Label htmlFor="cost">Cost</Label>
-      <Input
-        name="cost"
-        id="cost"
-        type="number"
-        placeholder="Enter tender cost..."
-        required
-        defaultValue={0}
-        min={0}
-      />
-      <Label htmlFor="duration">Duration</Label>
-      <Input
-        name="duration"
-        id="duration"
-        type="number"
-        placeholder="Enter tender duration..."
-        required
-        defaultValue={0}
-        min={0}
-      />
+      <div className="grid grid-cols-2 gap-2">
+        <Label htmlFor="cost">Cost</Label>
+        <Input
+          name="cost"
+          id="cost"
+          type="number"
+          placeholder="Enter tender cost..."
+          required
+          defaultValue={0}
+          min={0}
+        />
+        <Label htmlFor="duration">Duration</Label>
+        <Input
+          name="duration"
+          id="duration"
+          type="number"
+          placeholder="Enter tender duration..."
+          required
+          defaultValue={0}
+          min={0}
+        />
+      </div>
       <Label htmlFor="location">Location</Label>
       <Textarea
         name="location"
@@ -124,7 +142,7 @@ export default function CreateTenderForm() {
           size={"sm"}
           name="scope"
           onClick={handleGenerate}
-          disabled={!name || name.trim().length < 12}
+          disabled={!form.name || form.name.trim().length < 12}
         >
           Generate Scope
         </Button>
@@ -133,8 +151,8 @@ export default function CreateTenderForm() {
         name="scope"
         id="scope"
         placeholder="Enter tender scope..."
-        onChange={(e) => setScope(e.target.value)}
-        value={scope}
+        onChange={(e) => setForm({ ...form, scope: e.target.value })}
+        value={form.scope}
       />
       <div className="flex items-center justify-between">
         <Label htmlFor="terms">Terms and Conditions</Label>
@@ -144,7 +162,7 @@ export default function CreateTenderForm() {
           size={"sm"}
           name="terms"
           onClick={handleGenerate}
-          disabled={!name || name.trim().length < 12}
+          disabled={!form.name || form.name.trim().length < 12}
         >
           Generate Terms
         </Button>
@@ -154,8 +172,8 @@ export default function CreateTenderForm() {
         id="terms"
         rows={4}
         placeholder="Enter tender terms..."
-        onChange={(e) => setTerms(e.target.value)}
-        value={terms}
+        onChange={(e) => setForm({ ...form, terms: e.target.value })}
+        value={form.terms}
       />
 
       <div className="flex items-center gap-2 my-2">

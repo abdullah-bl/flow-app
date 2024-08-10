@@ -42,40 +42,40 @@ export default async function TenderDetailsLayout({
         <h1 className="text-2xl font-semibold">{tender.name}</h1>
         <p className="text-sm text-stone-500">Details of the tender.</p>
       </Hero>
-      <nav className="flex items-center justify-start gap-3 flex-nowrap overflow-scroll">
+      <nav className="flex items-center justify-center gap-4 flex-nowrap overflow-scroll my-2">
         <CustomLink
           href={`/tenders/${tender.id}`}
-          className="flex p-4 flex-col gap-2 border rounded-lg min-w-40"
+          className="flex items-center gap-4 px-2 py-2 hover:bg-stone-100 rounded-lg min-w-40"
         >
-          <IconInbox />
-          Info
+          <IconInbox width={22} height={22} />
+          Overview
         </CustomLink>
         <CustomLink
           href={`/tenders/${tender.id}/items`}
-          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+          className="flex items-center gap-4 px-2 py-2 hover:bg-stone-100 rounded-lg  min-w-40"
         >
-          <IconListBullets />
+          <IconListBullets width={22} height={22} />
           Items
         </CustomLink>
         <CustomLink
           href={`/tenders/${tender.id}/obligations`}
-          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+          className="flex items-center gap-4 px-2 py-2 hover:bg-stone-100 rounded-lg  min-w-40"
         >
-          <IconChainLink />
+          <IconChainLink width={22} height={22} />
           Obligations
         </CustomLink>
         <CustomLink
           href={`/tenders/${tender.id}/documents`}
-          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+          className="flex items-center gap-4 px-2 py-2 hover:bg-stone-100 rounded-lg  min-w-40"
         >
-          <IconFolderPaper />
+          <IconFolderPaper width={22} height={22} />
           Documents
         </CustomLink>
         <CustomLink
           href={`/tenders/${tender.id}/history`}
-          className="flex p-4 flex-col gap-2 border rounded-lg  min-w-40"
+          className="flex items-center gap-4 px-2 py-2 hover:bg-stone-100 rounded-lg  min-w-40"
         >
-          <IconArchive />
+          <IconArchive width={22} height={22} />
           History
         </CustomLink>
       </nav>

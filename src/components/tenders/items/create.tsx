@@ -82,7 +82,12 @@ export default function CreateTenderItem({ tenderId }: { tenderId: string }) {
           />
           {/* <SelectUnit /> */}
           <div className="grid grid-cols-2 gap-4 place-content-center">
-            <Label htmlFor="amount">Amount (*)</Label>
+            <div className="grid gap-0">
+              <Label htmlFor="amount">Amount (*)</Label>
+              <span className="text-xs text-stone-500">
+                The amount of the item, VAT included.
+              </span>
+            </div>
             <Input
               id="amount"
               name="amount"

@@ -1,13 +1,16 @@
 import { z } from "zod"
+import { zfd } from "zod-form-data"
 
-export const CreateTenderSchema = z.object({
+export const CreateTenderSchema = zfd.formData({
   name: z.string(),
-  cost: z.number(),
+  cost: zfd.numeric().optional().default(0),
+  duration: zfd.numeric().optional().default(0),
+  location: z.string().default(""),
   scope: z.string(),
   terms: z.string(),
 })
 
-export const CreateTenderItemSchema = z.object({
+export const CreateTenderItemSchema = zfd.formData({
   name: z.string(),
   description: z.string(),
   unit: z.string(),
@@ -26,10 +29,10 @@ export const CreateObligationSchema = z.object({
   file: z.instanceof(File).optional(),
 })
 
-export const UploadDocumentSchema = z.object({
+export const UploadDocumentSchema = zfd.formData({
   target: z.string(),
   name: z.string(),
   description: z.string().optional(),
-  file: z.any(),
+  file: zfd.file(),
   currentPath: z.string().optional(),
 })

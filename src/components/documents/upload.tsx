@@ -28,8 +28,7 @@ export default function UploadDocument({ target }: { target: string }) {
     event.preventDefault()
     try {
       const form = new FormData(event.currentTarget)
-      const { success, message, data } = await actions.upload(form)
-      console.log({ data, success, message })
+      await actions.uploadDocument(form)
       toast({
         title: "Document uploaded successfully",
         description: "The document has been uploaded successfully.",

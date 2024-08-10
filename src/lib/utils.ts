@@ -19,7 +19,7 @@ export const formatDate = (date: string | Date | undefined) => {
         month: "long",
         day: "numeric",
       })
-    : "N/A"
+    : ""
 }
 
 export const formatDateTime = (date: string | Date | undefined) => {
@@ -31,7 +31,7 @@ export const formatDateTime = (date: string | Date | undefined) => {
         hour: "numeric",
         minute: "numeric",
       })
-    : "N/A"
+    : ""
 }
 
 //  how many days between two dates

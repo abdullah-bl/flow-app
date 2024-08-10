@@ -9,9 +9,9 @@ const public_routes = [
   "/reset-password",
 ]
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = new URL(request.url).pathname
-  const user = getUserFromSession()
+  const user = await getUserFromSession()
   console.info("\x1b[36m%s\x1b[0m", "Middleware")
   console.info("\x1b[36m%s %s\x1b[0m", request.method, pathname)
   console.info("\x1b[36m%s\x1b[0m", "User:", user?.username)

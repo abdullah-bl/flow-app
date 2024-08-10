@@ -9,7 +9,7 @@ export default async function Documents({
 }: {
   params: { id: string }
 }) {
-  const user = getUserFromSession()
+  const user = await getUserFromSession()
   const documents = await getDocuments(id)
 
   return (
@@ -22,7 +22,6 @@ export default async function Documents({
           </p>
         </div>
         <UploadDocument target={id} />
-
       </div>
 
       <DocumentsTable documents={documents} currentUserId={user?.id} />

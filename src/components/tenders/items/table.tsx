@@ -53,7 +53,7 @@ export default function ItemsTable({
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={6}>Total</TableCell>
+            <TableCell colSpan={6}>Subtotal (VAT included)</TableCell>
             <TableCell className="" colSpan={2}>
               {formatCurrency(
                 items.reduce(

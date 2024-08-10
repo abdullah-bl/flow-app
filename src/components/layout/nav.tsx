@@ -10,34 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  IconFolderPaper,
-  IconFolderBox,
-  IconLayers,
-  IconBag,
-} from "@irsyadadl/paranoid"
-import {
-  FileIcon,
-  GearIcon,
-  PieChartIcon,
-  ReaderIcon,
-} from "@radix-ui/react-icons"
 import { User } from "@/types"
 import { logout } from "@/actions/auth"
 import { useToast } from "../ui/use-toast"
 import { Button } from "../ui/button"
-
-export const Links = [
-  { href: "/", label: "Home", icon: IconLayers2 },
-  { href: "/tenders", label: "Tenders", icon: IconLayers },
-  { href: "/contracts", label: "Contracts", icon: IconFolderBox },
-  { href: "/invoices", label: "Invoices", icon: FileIcon },
-  { href: "/souq", label: "Souq", icon: IconBag },
-  { href: "/budgets", label: "Budgets", icon: PieChartIcon },
-  { href: "/templates", label: "Templates", icon: IconFolderPaper },
-  { href: "/reports", label: "Reports", icon: ReaderIcon },
-  { href: "/settings", label: "Settings", icon: GearIcon },
-]
+import { pages } from "@/lib/links"
 
 export default function Navbar({ user }: { user: User }) {
   const { toast } = useToast()
@@ -57,7 +34,7 @@ export default function Navbar({ user }: { user: User }) {
   }
 
   return (
-    <nav className="flex mx-auto max-w-5xl w-full px-4 items-center flex-wrap py-3 gap-3 transition-all duration-75">
+    <nav className="flex mx-auto max-w-5xl w-full px-4 items-center flex-wrap py-3 gap-4 transition-all duration-75">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <IconLayers2 />
@@ -65,7 +42,13 @@ export default function Navbar({ user }: { user: User }) {
         <DropdownMenuContent className="w-44">
           <DropdownMenuLabel>Menu</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {Links.map(({ href, label, icon: Icon }) => (
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={() => router.push("/")}
+          >
+            Home
+          </DropdownMenuItem>
+          {pages.map(({ href, label, icon: Icon }) => (
             <DropdownMenuItem
               className="flex items-center gap-2"
               key={href}
@@ -84,7 +67,7 @@ export default function Navbar({ user }: { user: User }) {
       >
         &larr;
       </button>
-      <div className="flex-1 flex items-center justify-end gap-2">
+      <div className="flex-1 flex items-center justify-end gap-4">
         <span className="text-stone-800">
           {greeting}, {user.name}
         </span>

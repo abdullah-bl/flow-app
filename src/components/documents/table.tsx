@@ -1,4 +1,4 @@
-import { formatCurrency, formatDate } from "@/lib/utils"
+"use client"
 import { Document } from "@/types"
 import {
   Table,
@@ -9,9 +9,10 @@ import {
   TableCell,
   TableBody,
 } from "@/components/ui/table"
-import { DownloadIcon } from "@radix-ui/react-icons"
+import { DownloadIcon, TrashIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import { deleteDocument } from "@/actions/documents"
+import { useToast } from "../ui/use-toast"
 
 export default function DocumentsTable({
   documents,
@@ -20,6 +21,26 @@ export default function DocumentsTable({
   documents: Document[]
   currentUserId: string | undefined
 }) {
+  const { toast } = useToast()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    try {
+      if (!confirm("Are you sure you want to delete this document?"))
+        return null
+      event.preventDefault()
+      const form = new FormData(event.currentTarget)
+      await deleteDocument(form)
+      toast({
+        title: "Document deleted successfully",
+        description: "The document has been deleted successfully.",
+      })
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "Document deletion failed",
+        description: `An error occurred while deleting the document.`,
+      })
+    }
+  }
   return (
     <div className="border rounded-lg">
       <Table>
@@ -57,22 +78,22 @@ export default function DocumentsTable({
               <TableCell>{doc.expand?.user.name}</TableCell>
               <TableCell>
                 {currentUserId === doc.user && (
-                  <form action={deleteDocument}>
+                  <form onSubmit={handleSubmit} method="post">
                     <input
                       type="text"
                       readOnly
                       name="id"
-                      value={doc.id}
+                      defaultValue={doc.id}
                       hidden
                     />
                     <input
                       type="text"
                       name="currentUserId"
-                      value={currentUserId}
+                      defaultValue={currentUserId}
                       hidden
                     />
                     <button type="submit" className="text-red-500 text-xs">
-                      Delete
+                      <TrashIcon />
                     </button>
                   </form>
                 )}
