@@ -1,5 +1,6 @@
 import { Copy } from "@/components/custom/copy"
 import DateCard from "@/components/custom/date.card"
+import UpdateStatus from "@/components/status/update"
 import { getTender } from "@/data/tenders"
 import { daysBetween, formatCurrency } from "@/lib/utils"
 import { Tender } from "@/types"
@@ -7,6 +8,7 @@ import {
   IconCurrencyDollar,
   IconPerson,
   IconPersonAdd,
+  IconTrendingChart3,
 } from "@irsyadadl/paranoid"
 import {
   FileIcon,
@@ -39,17 +41,18 @@ export default async function TenderDetails({
           </div>
         </div>
         <div className="flex flex-col gap-2 p-3 rounded-lg border">
-          <div className="flex items-center justify-between">
-            <QuestionMarkCircledIcon width={22} height={22} />
-            ....
+          <div className="flex items-center justify-between w-full">
+            <IconTrendingChart3 width={22} height={22} />
+            <UpdateStatus id={id} currentStatus={tender.expand?.status} />
           </div>
+
           <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-0">
-              <span className="text-2xl font-medium ">
-                {tender.expand?.status?.name || "...."}
+            <div className="flex flex-col gap-0 items-start flex-1">
+              <span className="text-xl font-medium ">
+                {tender.expand?.status?.name || "No Status"}
               </span>
               <span className="text-xs text-zinc-500">
-                {tender.expand?.status?.description || "..."}
+                {tender.expand?.status?.description || "No Description"}
               </span>
             </div>
           </div>

@@ -16,7 +16,7 @@ export default function Home() {
           <CustomLink
             key={label}
             href={href}
-            className="bg-white/70 border col-span-1 rounded-lg p-3 flex flex-col gap-5  shadow-sm hover:shadow-md"
+            className="bg-white/70 border col-span-1 rounded-lg p-3 flex flex-col gap-5  hover:shadow-sm"
           >
             <Icon width={22} height={22} />
             <span className="flex-1 w-full text-justify ">{label} &rarr;</span>

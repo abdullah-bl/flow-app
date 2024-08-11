@@ -85,7 +85,9 @@ export function TendersTable({ tenders }: { tenders: Tender[] }) {
     // add header
     const headerRow = header.join(",")
     const csvWithHeader = [headerRow, ...csv.split("\n")].join("\n")
-    const blob = new Blob([csvWithHeader], { type: "text/csv" })
+    // add UTF-8 BOM to support special characters
+    const blob = new Blob(["\ufeff", csvWithHeader], { type: "text/csv" })
+    // const blob = new Blob([csvWithHeader], { type: "text/csv" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url

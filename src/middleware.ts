@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   console.info("\x1b[36m%s\x1b[0m", "User:", user?.username)
 
   if (!user && !public_routes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/login", request.url).toString())
+    return NextResponse.rewrite(new URL("/login", request.url).toString())
   } else if (user && public_routes.includes(pathname)) {
     return NextResponse.redirect(new URL("/", request.url).toString())
   } else {

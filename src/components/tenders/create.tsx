@@ -14,7 +14,14 @@ import { readStreamableValue } from "ai/rsc"
 
 export default function CreateTenderForm() {
   const { toast } = useToast()
-  const [form, setForm] = useState({} as Record<string, string>)
+  const [form, setForm] = useState({
+    name: "",
+    cost: "",
+    duration: "",
+    location: "",
+    scope: "",
+    terms: "",
+  } as Record<string, string>)
 
   const handleGenerate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {

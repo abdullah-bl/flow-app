@@ -30,7 +30,7 @@ export default function Navbar({ user }: { user: User }) {
       title: "Signed out",
       description: "You have been signed out",
     })
-    router.push("/login")
+    router.replace("/login")
   }
 
   return (
