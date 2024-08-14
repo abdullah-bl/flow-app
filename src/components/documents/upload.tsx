@@ -16,6 +16,7 @@ import { useState } from "react"
 import * as actions from "@/actions/documents"
 import { useToast } from "@/components/ui/use-toast"
 import { usePathname } from "next/navigation"
+import { IconCirclePlus, IconPlus } from "@irsyadadl/paranoid"
 
 export default function UploadDocument({ target }: { target: string }) {
   const pathname = usePathname()
@@ -47,7 +48,11 @@ export default function UploadDocument({ target }: { target: string }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>&#43; Upload</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button size={"sm"} variant={"outline"}>
+          &#43; Upload Document
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Upload Document</DialogTitle>
@@ -94,7 +99,7 @@ export default function UploadDocument({ target }: { target: string }) {
           />
 
           <Button type="submit" className="btn">
-            Upload Document
+            Upload Document &#10132;
           </Button>
         </form>
       </DialogContent>

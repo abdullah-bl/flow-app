@@ -4,8 +4,8 @@ import { pages } from "@/lib/links"
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-4  flex-1 ">
-      <HeroSection className=" gap-2 p-8 bg-orange-50 rounded-lg ">
+    <div className="">
+      <HeroSection className=" gap-2 p-8 rounded-lg ">
         <h3 className="text-5xl font-semibold">Follow Up</h3>
         <p className="text-sm text-stone-500">
           The way to manage your tenders, contracts, and more.
@@ -16,10 +16,13 @@ export default function Home() {
           <CustomLink
             key={label}
             href={href}
-            className="bg-white/70 border col-span-1 rounded-lg p-3 flex flex-col gap-5  hover:shadow-sm"
+            className="bg-white/70 border col-span-1 rounded-lg p-3 flex flex-col gap-5  hover:shadow-sm transition-all duration-150"
           >
             <Icon width={22} height={22} />
-            <span className="flex-1 w-full text-justify ">{label} &rarr;</span>
+            <div className="flex items-center justify-between">
+              <span className="flex-1 hover:italic">{label} </span>
+              <span>&rarr;</span>
+            </div>
           </CustomLink>
         ))}
       </div>

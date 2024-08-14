@@ -1,20 +1,17 @@
-import { Copy } from "@/components/custom/copy"
+import Summarize from "@/components/ai/summrize"
 import DateCard from "@/components/custom/date.card"
 import UpdateStatus from "@/components/status/update"
 import { getTender } from "@/data/tenders"
-import { daysBetween, formatCurrency } from "@/lib/utils"
+import { daysBetween, formatCurrency, formatDateTime } from "@/lib/utils"
 import { Tender } from "@/types"
 import {
-  IconCurrencyDollar,
-  IconPerson,
-  IconPersonAdd,
+  IconBill,
+  IconCalendar,
+  IconCalendar2,
+  IconMoneybag,
   IconTrendingChart3,
 } from "@irsyadadl/paranoid"
-import {
-  FileIcon,
-  PieChartIcon,
-  QuestionMarkCircledIcon,
-} from "@radix-ui/react-icons"
+
 import Markdown from "react-markdown"
 
 export default async function TenderDetails({
@@ -27,13 +24,13 @@ export default async function TenderDetails({
     return <div>Not found</div>
   }
   return (
-    <div className="grid gap-6 w-full">
+    <div className="grid gap-4 w-full">
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
-        <div className="flex flex-col gap-2 p-3 rounded-lg border ">
-          <PieChartIcon width={22} height={22} />
+        <div className="flex flex-col gap-2 p-3 rounded-lg border justify-between ">
+          <IconBill width={22} height={22} />
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-0">
-              <span className="text-2xl font-semibold text-blue-700">
+              <span className="text-xl font-semibold text-blue-700">
                 {formatCurrency(tender.cost)}
               </span>
               <span className="text-xs text-zinc-500">Estimated Cost</span>
@@ -58,84 +55,135 @@ export default async function TenderDetails({
           </div>
         </div>
       </div>
-      <div className="grid gap-4">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+        <DateCard
+          icon={<IconCalendar width={22} height={22} />}
+          title="Publish Date"
+          subtitle={
+            tender.publish_date
+              ? `Published ${daysBetween(
+                  tender.publish_date,
+                  new Date().toISOString()
+                )} days ago`
+              : "Not available"
+          }
+          date={tender.publish_date}
+        />
+        <DateCard
+          icon={<IconCalendar2 width={22} height={22} />}
+          title="Open Date"
+          subtitle={
+            tender.open_date
+              ? `${daysBetween(
+                  tender.open_date,
+                  tender.publish_date
+                )} days after publish date`
+              : "Not available"
+          }
+          date={tender.open_date}
+        />
+        <DateCard
+          icon={<IconCalendar2 width={22} height={22} />}
+          title="Award Date"
+          subtitle={
+            tender.award_date
+              ? `${daysBetween(
+                  tender.award_date,
+                  tender.publish_date
+                )} days after publish date`
+              : "Not available"
+          }
+          date={tender.award_date}
+        />
+      </div>
+      <div className="grid gap-4 border rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div className="grid gap-0">
-            <h3 className="text-xl font-medium">Tender Details</h3>
+            <h3 className="text-lg font-medium">Details</h3>
             <p className="text-sm text-stone-500">
               Details from Eetimad platform.
             </p>
           </div>
+          <div className="flex flex-col gap-0 items-end ">
+            <span className="text-xs text-stone-500">Last Update</span>
+            <span className="text-sm">{formatDateTime(tender.updated)}</span>
+          </div>
         </div>
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-          <DateCard
-            title="Publish Date"
-            subtitle={`${daysBetween(
-              tender.publish_date,
-              new Date().toISOString()
-            )} days ago`}
-            date={tender.publish_date}
-          />
-          <DateCard
-            title="Open Date"
-            subtitle={`${daysBetween(
-              tender.open_date,
-              tender.publish_date
-            )} days after publish date`}
-            date={tender.open_date}
-          />
-          <DateCard
-            title="Award Date"
-            subtitle={`${daysBetween(
-              tender.award_date,
-              tender.open_date
-            )} days after open date`}
-            date={tender.award_date}
-          />
-        </div>
-        <div className="p-4 border rounded-lg">
-          <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2">
+          <div className="flex flex-col gap-1">
             <span className=" font-normal ">Number</span>
-            <span className="font-normal">{tender.number || "...."}</span>
-            <span className=" font-normal ">Reference</span>
-            <span className="font-normal">{tender.reference || "...."}</span>
-            <span className=" font-normal  ">Type</span>
-            <span className="font-normal">{tender.type || "...."}</span>
+            <span className="font-medium">
+              {tender.number || "Not Available"}
+            </span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="">Reference</span>
+            <span className="font-medium">
+              {tender.reference || "Not Available"}
+            </span>
+          </div>
+          <div className="flex flex-col gap-1 col-span-2">
             <span className="">Location</span>
-            <span className="font-normal">{tender.location || "...."}</span>
+            <span className="font-medium">
+              {tender.location || "Not Available"}
+            </span>
           </div>
-        </div>
-        <div className="grid gap-4 flex-1">
-          <details className="border rounded-lg">
-            <summary className="flex items-center justify-between gap-2 px-2 py-2 bg-stone-50">
-              <span className="font-medium">Scope of Work</span>
-              <Copy content={tender.scope} />
+          <details className=" col-span-2 py-1">
+            <summary className="flex items-center gap-1">
+              <span className="font-normal hover:font-medium select-none">
+                Scope of Work
+              </span>
+              <Summarize content={tender.terms} />
             </summary>
-            <Markdown className={"p-2"}>{tender.scope || "...."}</Markdown>
+            <Markdown className="p-2">
+              {tender.scope || "Not Available"}
+            </Markdown>
           </details>
-          <details className="border rounded-lg">
-            <summary className="flex items-center justify-between gap-2 px-2 py-2 bg-stone-50">
-              <span className="font-medium">Terms and Conditions</span>
-              <Copy content={tender.terms} />
+          <details className=" col-span-2 py-1 w-full">
+            <summary className="flex items-center gap-1 w-full">
+              <span className="font-normal hover:font-medium select-none">
+                Terms and Conditions
+              </span>
+              <Summarize content={tender.terms} />
             </summary>
-            <Markdown className={"p-2"}>{tender.terms || "...."}</Markdown>
+            <Markdown className={"p-2"}>
+              {tender.terms || "Not Available"}
+            </Markdown>
           </details>
         </div>
-        <div className="p-4 border rounded-lg h-fit">
-          <div className="flex items-center justify-between">
-            <h3 className="font-medium w-full text-lg">Members</h3>
-            <IconPersonAdd width={22} height={22} />
-          </div>
-          ....
-        </div>
-        <div className="p-4 border rounded-lg h-fit grid gap-2">
-          <div className="flex items-center justify-between">
+      </div>
+      <div className="h-fit grid gap-2 border rounded-lg p-4">
+        <div className="flex items-center justify-between">
+          <div className="grid gap-0">
             <h3 className="font-medium w-full text-lg">Attachments</h3>
-            <FileIcon width={22} height={22} />
+            <p className="text-sm text-stone-500">
+              Files and documents attached to the tender.
+            </p>
           </div>
-          <div className="grid gap-2 grid-cols-4">
+        </div>
+        <div className="grid gap-2 grid-cols-2">
+          <div className="grid gap-2 grid-cols-2 col-span-2">
+            <span className="font-normal">
+              Specifications and Conditions Document
+            </span>
+            <span>{tender.specifications_doc ? "File" : "Not available"}</span>
+          </div>
+          <div className="grid gap-2 grid-cols-2">
+            <span className="font-normal">Prices Document</span>
+            <span>{tender.prices_doc ? "File" : "Not available"}</span>
+          </div>
+
+          <div className="grid gap-2 grid-cols-2">
             <span className="font-normal">Government Document</span>
             <span>{tender.gov_doc ? "File" : "Not available"}</span>
+          </div>
+          <div className="grid gap-2 grid-cols-2">
+            <span className="font-normal">Awarded Document</span>
+            <span>{tender.award_doc ? "File" : "Not available"}</span>
+          </div>
+          <div className="grid gap-2 grid-cols-2">
+            <span className="font-normal">Capitalism Document</span>
+            <span>{tender.cap_doc ? "File" : "Not available"}</span>
           </div>
         </div>
       </div>

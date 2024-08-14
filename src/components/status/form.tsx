@@ -37,6 +37,7 @@ export default function UpdateStatus({
 }) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [selectedStatus, setSelectedStatus] = useState(currentStatus?.id)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -56,11 +57,17 @@ export default function UpdateStatus({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="flex items-center gap-2" disabled={false}>
-        <span className="text-sm text-stone-500">Update Status</span>
-        <Pencil1Icon />
+      <DialogTrigger
+        className="flex items-center gap-2"
+        disabled={false}
+        asChild
+      >
+        <Button variant={"outline"} size={"sm"}>
+          <Pencil1Icon />
+          Update Status
+        </Button>
       </DialogTrigger>
-      <DialogContent className="w-1/3">
+      <DialogContent className="w-1/3 bg-white">
         <DialogHeader>
           <DialogTitle>Update Status</DialogTitle>
           <DialogDescription>
@@ -69,7 +76,12 @@ export default function UpdateStatus({
         </DialogHeader>
         <form className="grid gap-2" method="post" onSubmit={handleSubmit}>
           <Label htmlFor="status">Select Status</Label>
-          <Select name="status" required defaultValue={currentStatus?.id}>
+          <Select
+            name="status"
+            required
+            defaultValue={selectedStatus}
+            onValueChange={setSelectedStatus}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select a status" />
             </SelectTrigger>
@@ -84,6 +96,11 @@ export default function UpdateStatus({
               </SelectGroup>
             </SelectContent>
           </Select>
+          <span className="font-medium text-sm">Description</span>
+          <span className="text-stone-500 text-xs">
+            {statuses.find((status) => status.id === selectedStatus)
+              ?.description ?? ""}
+          </span>
           <Label htmlFor="comment">Comment</Label>
           <Textarea
             required
@@ -91,6 +108,7 @@ export default function UpdateStatus({
             name="comment"
             id="comment"
             placeholder="Enter comment..."
+            className="max-h-40"
           />
           <Button type="submit" variant={"default"}>
             {loading ? "Updating..." : "Update status"}

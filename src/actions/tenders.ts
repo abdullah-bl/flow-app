@@ -17,7 +17,11 @@ export const create = authAction
         user: user.id,
       })
       revalidatePath("/tenders")
-      return tender
+      return {
+        success: true,
+        data: tender,
+        message: "Tender created successfully",
+      }
     } catch (error) {
       return { success: false, message: error }
     }

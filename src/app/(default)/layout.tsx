@@ -8,7 +8,7 @@ export default async function DefaultLayout({
 }) {
   const user = await getUserFromSession()
   return (
-    <div className="flex flex-col gap-4 w-full h-full mx-auto max-w-4xl">
+    <div className="mx-auto max-w-4xl w-full h-full">
       {user && <Navbar user={user} />}
       {children}
     </div>

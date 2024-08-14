@@ -25,7 +25,7 @@ export default function ItemsTable({ items }: { items: TenderItem[] }) {
   return (
     <div className="border rounded-lg" id="tender-items">
       <Table>
-        <TableCaption>A list of items in this tender.</TableCaption>
+        {/* <TableCaption>A list of items in this tender.</TableCaption> */}
         <TableHeader>
           <TableRow>
             <TableHead className="w-fit">#</TableHead>

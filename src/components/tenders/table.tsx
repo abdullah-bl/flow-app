@@ -67,7 +67,7 @@ export function TendersTable({ tenders }: { tenders: Tender[] }) {
       "department",
     ] as (keyof Tender)[]
     const replacer = (key: string, value: any) => (value === null ? "" : value)
-    const csv = tenders
+    const csv = data
       .map((row) => {
         return header
           .map((fieldName) => {
@@ -174,7 +174,7 @@ export function TendersTable({ tenders }: { tenders: Tender[] }) {
                 </TableCell>
                 <TableCell className="">{formatCurrency(d.cost)}</TableCell>
                 <TableCell className="">
-                  {d.expand?.department?.name || "N/A"}
+                  {d.expand?.department?.name || "Not assigned"}
                 </TableCell>
               </TableRow>
             ))}

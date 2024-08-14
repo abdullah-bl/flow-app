@@ -34,13 +34,13 @@ export default function Navbar({ user }: { user: User }) {
   }
 
   return (
-    <nav className="flex mx-auto max-w-5xl w-full px-4 items-center flex-wrap py-3 gap-4 transition-all duration-75">
+    <nav className="flex mx-auto max-w-5xl w-full px-2 items-center flex-wrap py-3 gap-4 transition-all duration-75">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <IconLayers2 />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-44">
-          <DropdownMenuLabel>Menu</DropdownMenuLabel>
+          <DropdownMenuLabel>App Menu</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="flex items-center gap-2"
@@ -65,7 +65,7 @@ export default function Navbar({ user }: { user: User }) {
         onClick={() => router.back()}
         className="px-2 text-zinc-500 hover:text-zinc-900"
       >
-        &larr;
+        &larr; back
       </button>
       <div className="flex-1 flex items-center justify-end gap-4">
         <span className="text-stone-800">

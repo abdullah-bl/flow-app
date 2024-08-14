@@ -20,7 +20,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
         <body className={rubik.className}>
-          <main className="mx-auto max-w-5xl p-2">{children}</main>
+          <main className="p-2 scroll-smooth">{children}</main>
           <Toaster />
         </body>
       </html>

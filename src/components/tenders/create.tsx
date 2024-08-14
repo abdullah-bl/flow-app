@@ -11,6 +11,8 @@ import { ToastAction } from "../ui/toast"
 import { generate } from "@/actions/ai"
 import { useState } from "react"
 import { readStreamableValue } from "ai/rsc"
+import { IconSparklesThree } from "@irsyadadl/paranoid"
+import { formatCurrency } from "@/lib/utils"
 
 export default function CreateTenderForm() {
   const { toast } = useToast()
@@ -76,15 +78,17 @@ export default function CreateTenderForm() {
           description: "Please check the form for errors",
         })
       }
-      toast({
-        title: "Tender created",
-        description: "You have successfully created a tender",
-        action: (
-          <ToastAction altText="View Tender">
-            <Link href={`/tenders/${result?.data?.data?.id}`}>View</Link>
-          </ToastAction>
-        ),
-      })
+      if (result?.data) {
+        toast({
+          title: "Tender created",
+          description: "You have successfully created a tender",
+          action: (
+            <ToastAction altText="View Tender">
+              <Link href={`/tenders/${result?.data?.data?.id}`}>View</Link>
+            </ToastAction>
+          ),
+        })
+      }
       setForm({})
       form.reset()
     } catch (error) {
@@ -113,7 +117,12 @@ export default function CreateTenderForm() {
         value={form.name}
       />
       <div className="grid grid-cols-2 gap-2">
-        <Label htmlFor="cost">Cost</Label>
+        <div className="grid gap-0">
+          <Label htmlFor="cost">Cost</Label>
+          <span className="text-xs text-stone-500">
+            {formatCurrency(Number(form?.cost) || 0)}
+          </span>
+        </div>
         <Input
           name="cost"
           id="cost"
@@ -122,8 +131,12 @@ export default function CreateTenderForm() {
           required
           defaultValue={0}
           min={0}
+          onChange={(e) => setForm({ ...form, cost: e.target.value })}
         />
-        <Label htmlFor="duration">Duration</Label>
+        <div className="grid gap-0">
+          <Label htmlFor="duration">Duration</Label>
+          <span className="text-xs text-stone-500">{form.duration} months</span>
+        </div>
         <Input
           name="duration"
           id="duration"
@@ -132,6 +145,7 @@ export default function CreateTenderForm() {
           required
           defaultValue={0}
           min={0}
+          onChange={(e) => setForm({ ...form, duration: e.target.value })}
         />
       </div>
       <Label htmlFor="location">Location</Label>
@@ -151,6 +165,7 @@ export default function CreateTenderForm() {
           onClick={handleGenerate}
           disabled={!form.name || form.name.trim().length < 12}
         >
+          <IconSparklesThree className="mr-2" width={18} height={18} />
           Generate Scope
         </Button>
       </div>
@@ -171,7 +186,8 @@ export default function CreateTenderForm() {
           onClick={handleGenerate}
           disabled={!form.name || form.name.trim().length < 12}
         >
-          Generate Terms
+          <IconSparklesThree className="mr-2" width={18} height={18} />
+          Generate Terms & Conditions
         </Button>
       </div>
       <Textarea

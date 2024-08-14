@@ -11,12 +11,13 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    try {
-      const form = e.currentTarget
-      await actions.login({
-        username: form.username.value,
-        password: form.password.value,
-      })
+    const form = e.currentTarget
+    const result = await actions.login({
+      username: form.username.value,
+      password: form.password.value,
+    })
+    console.log(result)
+    if (result?.data?.success) {
       toast({
         title: "Login successful",
         description: "You are now logged in, redirecting...",
@@ -24,11 +25,23 @@ export default function LoginPage() {
       setTimeout(() => {
         window.location.href = "/"
       }, 800)
-    } catch (error) {
-      console.error(error)
+    } else {
       toast({
         title: "Login failed",
-        description: "Something went wrong",
+        description: "Please check your credentials and try again.",
+      })
+    }
+    if (result?.validationErrors) {
+      toast({
+        title: "Validation Error",
+        description: "Please check the form and try again.",
+      })
+    }
+    if (result?.serverError) {
+      toast({
+        title: "Server Error",
+        description:
+          "An error occured while logging in. Please try again later.",
       })
     }
   }

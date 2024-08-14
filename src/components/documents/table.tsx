@@ -14,6 +14,7 @@ import Link from "next/link"
 import { deleteDocument } from "@/actions/documents"
 import { useToast } from "../ui/use-toast"
 import { usePathname } from "next/navigation"
+import { formatDate } from "@/lib/utils"
 
 export default function DocumentsTable({
   documents,
@@ -63,6 +64,7 @@ export default function DocumentsTable({
             <TableHead>Description</TableHead>
             <TableHead>Document</TableHead>
             <TableHead className="">User</TableHead>
+            <TableHead className="">Created</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -87,6 +89,7 @@ export default function DocumentsTable({
                 )}
               </TableCell>
               <TableCell>{doc.expand?.user.name}</TableCell>
+              <TableCell>{formatDate(doc.created)}</TableCell>
               <TableCell>
                 {currentUserId === doc.user && (
                   <form onSubmit={handleSubmit} method="post">

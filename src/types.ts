@@ -43,6 +43,8 @@ export type Tender = RecordModel & {
   award_doc: string // Award Document
   gov_doc: string // Government Document
   cap_doc: string // Capital Expenditure Document
+  prices_doc: string // Prices Document
+  specifications_doc: string // Specifications Document
 
   expand?: {
     members: User[]
