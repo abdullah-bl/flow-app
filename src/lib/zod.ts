@@ -11,11 +11,12 @@ export const CreateTenderSchema = zfd.formData({
 })
 
 export const CreateTenderItemSchema = zfd.formData({
+  tender: z.string(),
   name: z.string(),
   description: z.string(),
   unit: z.string(),
-  amount: z.number(),
-  quantity: z.number(),
+  amount: zfd.numeric(),
+  quantity: zfd.numeric(),
 })
 
 export const CreateObligationSchema = z.object({

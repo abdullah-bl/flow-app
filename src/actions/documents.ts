@@ -31,37 +31,16 @@ export const uploadDocument = authAction
     }
   })
 
-// export const upload = async (formData: FormData) => {
-//   try {
-//     const user = await getUserFromSession()
-//     if (!user) return { success: false, message: "Not authorized" }
-//     const data = Object.fromEntries(formData.entries()) as any
-//     await UploadDocumentSchema.safeParseAsync(data)
-//     const document = await client.collection("documents").create<Document>({
-//       ...data,
-//       user: user.id,
-//     })
-//     revalidatePath(data.currentPath ?? "/")
-//     return {
-//       success: true,
-//       data: document,
-//       message: "Document uploaded successfully",
-//     }
-//   } catch (error) {
-//     console.error(error)
-//     if (error instanceof Error) {
-//       return { success: false, message: error.message }
-//     }
-//     return { success: false, message: error }
-//   }
-// }
-
 export const deleteDocument = authAction
-  .schema(zfd.formData({ id: z.string(), currentPath: z.string() }))
+  .schema(zfd.formData({ id: z.string(), currentPath: z.string().optional() }))
   .action(async ({ parsedInput: { id, currentPath }, ctx: { user } }) => {
     try {
       await client.collection("documents").delete(id)
-      return revalidatePath(currentPath)
+      revalidatePath(currentPath ?? "/")
+      return {
+        success: true,
+        message: "Document deleted successfully",
+      }
     } catch (error) {
       return {
         success: false,

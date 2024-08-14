@@ -7,8 +7,8 @@ export const HeroSection: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
   return (
     <div
       className={cn(
-        props.className,
-        "aspect-[8/1] p-2 flex items-center flex-col justify-center"
+        "aspect-[8/1] p-2 flex items-center flex-col justify-center",
+        props.className
       )}
     >
       {props.children}

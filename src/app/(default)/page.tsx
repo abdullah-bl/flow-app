@@ -5,8 +5,8 @@ import { pages } from "@/lib/links"
 export default function Home() {
   return (
     <div className="flex flex-col gap-4  flex-1 ">
-      <HeroSection className=" aspect-[5/1] ">
-        <h3 className="text-5xl font-semibold">Follow UP</h3>
+      <HeroSection className=" gap-2 p-8 bg-orange-50 rounded-lg ">
+        <h3 className="text-5xl font-semibold">Follow Up</h3>
         <p className="text-sm text-stone-500">
           The way to manage your tenders, contracts, and more.
         </p>

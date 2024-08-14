@@ -7,14 +7,14 @@ onAfterBootstrap((e) => {
 onRecordAfterUpdateRequest(
 	(e) => {
 		// console.log(e.httpContext)
-		// console.log(e.record)
+		// console.log(`e.record is ${e.record.get('name')}`)
 		const record = e.record.originalCopy()
-		console.log(record.user)
+		const user = e.record.get('user')
 		const collection = $app.dao().findCollectionByNameOrId('histories')
 		const new_record = new Record(collection, {
 			target: e.record.id,
 			action: 'UPDATE',
-			user: record.user,
+			user: user,
 			note: `Record has been updated.`,
 			original: record,
 		})

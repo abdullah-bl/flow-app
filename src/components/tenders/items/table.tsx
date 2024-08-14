@@ -11,14 +11,17 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { formatCurrency } from "@/lib/utils"
+import DeleteTenderItem from "./delete"
+import { tafqeet } from "@/lib/arabicNumberToWords"
 
-export default function ItemsTable({
-  items,
-  canUpdate,
-}: {
-  items: TenderItem[]
-  canUpdate?: boolean
-}) {
+export default function ItemsTable({ items }: { items: TenderItem[] }) {
+  const vat_rate = 0.15
+  const total = items.reduce(
+    (acc, item) => acc + item.amount * item.quantity,
+    0
+  ) // vat included
+  const vat_exclude = total / (1 + vat_rate) // vat excluded
+  const vat = (total / (1 + vat_rate)) * vat_rate // vat amount
   return (
     <div className="border rounded-lg" id="tender-items">
       <Table>
@@ -47,20 +50,29 @@ export default function ItemsTable({
               <TableCell className="">
                 {formatCurrency(item.amount * item.quantity)}
               </TableCell>
-              <TableCell className="">...</TableCell>
+              <TableCell className="">
+                <DeleteTenderItem id={item.id} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={6}>Subtotal (VAT included)</TableCell>
+            <TableCell colSpan={6}>Total Amount (VAT Excluded)</TableCell>
             <TableCell className="" colSpan={2}>
-              {formatCurrency(
-                items.reduce(
-                  (acc, item) => acc + item.amount * item.quantity,
-                  0
-                )
-              )}
+              {formatCurrency(vat_exclude)}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={6}>VAT ({vat_rate * 100}%)</TableCell>
+            <TableCell className="" colSpan={2}>
+              {formatCurrency(vat)}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={6}>Total Amount (VAT Included)</TableCell>
+            <TableCell className="" colSpan={2}>
+              {formatCurrency(total)}
             </TableCell>
           </TableRow>
         </TableFooter>

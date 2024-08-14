@@ -25,21 +25,28 @@ export default function CreateTenderItem({ tenderId }: { tenderId: string }) {
   const [amount, setAmount] = useState(1)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    try {
-      event.preventDefault()
-      const form = new FormData(event.currentTarget)
-      const d = Object.fromEntries(form.entries()) as any
-      const { success, message, data } = await actions.create_item(d)
+    event.preventDefault()
+    const form = new FormData(event.currentTarget)
+    const result = await actions.createTenderItem(form)
+    if (result?.data) {
       toast({
-        title: "Item created successfully",
-        description: "The item has been created successfully.",
+        title: "Item Created",
+        description: `The item has been created successfully.`,
       })
       setOpen(false)
-    } catch (error) {
-      console.error(error)
+      setAmount(1)
+      setQuantity(1)
+    }
+    if (result?.validationErrors) {
       toast({
-        title: "Item creation failed",
-        description: `An error occurred while creating the item.`,
+        title: "Validation Error",
+        description: `Please check the form and try again.`,
+      })
+    }
+    if (result?.serverError) {
+      toast({
+        title: "Server Error",
+        description: `An error occured while creating the item. Please try again later.`,
       })
     }
   }
@@ -94,8 +101,10 @@ export default function CreateTenderItem({ tenderId }: { tenderId: string }) {
               type="number"
               required
               placeholder="write the amount of the item"
-              min={1}
+              min={0.01}
               onChange={(e) => setAmount(Number(e.target.value))}
+              pattern="\d+(\.\d{2})?"
+              step={0.01}
             />
             <Label htmlFor="quantity">Quantity (*)</Label>
             <Input
@@ -104,7 +113,7 @@ export default function CreateTenderItem({ tenderId }: { tenderId: string }) {
               type="number"
               required
               placeholder="write the quantity of the item"
-              min={1}
+              min={0}
               defaultValue={1}
               onChange={(e) => setQuantity(Number(e.target.value))}
             />

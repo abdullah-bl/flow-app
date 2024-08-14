@@ -6,6 +6,7 @@ import { authAction } from "@/lib/safe-action"
 import { CreateTenderItemSchema, CreateTenderSchema } from "@/lib/zod"
 import { Tender, TenderItem } from "@/types"
 import { revalidatePath } from "next/cache"
+import { zfd } from "zod-form-data"
 
 export const create = authAction
   .schema(CreateTenderSchema)
@@ -16,35 +17,15 @@ export const create = authAction
         user: user.id,
       })
       revalidatePath("/tenders")
-      return {
-        success: true,
-        data: tender,
-        message: "Tender created successfully",
-      }
+      return tender
     } catch (error) {
       return { success: false, message: error }
     }
   })
 
-export const create_item = async (
-  data: (typeof CreateTenderItemSchema)["_input"]
-) => {
-  const user = await getUserFromSession()
-  if (!user) return { success: false, message: "Not authorized" }
-  try {
-    await CreateTenderItemSchema.safeParseAsync(data)
-    const item = await client
-      .collection("tender_items")
-      .create<TenderItem>(data)
-    revalidatePath(`/tenders/${item.tender}/items`)
-    return { success: true, data: item, message: "Item created successfully" }
-  } catch (error) {
-    if (error instanceof Error) {
-      return { success: false, message: error.message }
-    }
-    return { success: false, message: error }
-  }
-}
+export const deleteTender = authAction
+  .schema(zfd.formData({ id: zfd.text() }))
+  .action(async ({ parsedInput: { id }, ctx: { user } }) => {})
 
 export const createTenderItem = authAction
   .schema(CreateTenderItemSchema)
@@ -55,11 +36,19 @@ export const createTenderItem = authAction
         user: user.id,
       })
       revalidatePath(`/tenders/${item.tender}/items`)
-      return {
-        success: true,
-        data: item,
-        message: "Item created successfully",
-      }
+      return item
+    } catch (error) {
+      throw error
+    }
+  })
+
+export const deleteTenderItem = authAction
+  .schema(zfd.formData({ id: zfd.text() }))
+  .action(async ({ parsedInput: { id }, ctx: { user } }) => {
+    try {
+      await client.collection("tender_items").delete(id)
+      revalidatePath("/tenders")
+      return { success: true, message: "Item deleted successfully" }
     } catch (error) {
       return { success: false, message: error }
     }

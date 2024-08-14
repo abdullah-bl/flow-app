@@ -13,6 +13,7 @@ import { DownloadIcon, TrashIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
 import { deleteDocument } from "@/actions/documents"
 import { useToast } from "../ui/use-toast"
+import { usePathname } from "next/navigation"
 
 export default function DocumentsTable({
   documents,
@@ -21,23 +22,33 @@ export default function DocumentsTable({
   documents: Document[]
   currentUserId: string | undefined
 }) {
+  const pathname = usePathname()
   const { toast } = useToast()
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    try {
-      if (!confirm("Are you sure you want to delete this document?"))
-        return null
-      event.preventDefault()
-      const form = new FormData(event.currentTarget)
-      await deleteDocument(form)
+    event.preventDefault()
+    const confirm = window.confirm(
+      "Are you sure you want to delete this document?"
+    )
+    if (!confirm) return
+    const form = new FormData(event.currentTarget)
+    const result = await deleteDocument(form)
+    console.log(result)
+    if (result?.data) {
       toast({
-        title: "Document deleted successfully",
-        description: "The document has been deleted successfully.",
+        title: "Document Deleted",
+        description: `The document has been deleted successfully.`,
       })
-    } catch (error) {
-      console.error(error)
+    }
+    if (result?.validationErrors) {
       toast({
-        title: "Document deletion failed",
-        description: `An error occurred while deleting the document.`,
+        title: "Validation Error",
+        description: `Please check the form and try again.`,
+      })
+    }
+    if (result?.serverError) {
+      toast({
+        title: "Server Error",
+        description: `An error occured while deleting the document. Please try again later.`,
       })
     }
   }
@@ -88,8 +99,8 @@ export default function DocumentsTable({
                     />
                     <input
                       type="text"
-                      name="currentUserId"
-                      defaultValue={currentUserId}
+                      name="currentPath"
+                      defaultValue={pathname}
                       hidden
                     />
                     <button type="submit" className="text-red-500 text-xs">

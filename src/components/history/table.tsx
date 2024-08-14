@@ -8,7 +8,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getHistory } from "@/data/history"
-import { formatDate, formatDateTime } from "@/lib/utils"
+import { formatDateTime } from "@/lib/utils"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog"
 
 export default async function HistoryTable({ target }: { target: string }) {
   const history = await getHistory(target)
@@ -23,6 +25,7 @@ export default async function HistoryTable({ target }: { target: string }) {
             <TableHead className="flex-1">Note</TableHead>
             <TableHead className="w-fit">User</TableHead>
             <TableHead>Created At</TableHead>
+            <TableHead>Original</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -33,6 +36,16 @@ export default async function HistoryTable({ target }: { target: string }) {
               <TableCell>{h.note}</TableCell>
               <TableCell>{h.expand?.user.name}</TableCell>
               <TableCell>{formatDateTime(h.created)}</TableCell>
+              <TableCell>
+                <Dialog>
+                  <DialogTrigger>View</DialogTrigger>
+                  <DialogContent className=" overflow-scroll max-h-96 ">
+                    <pre className=" whitespace-pre-line w-full h-full overscroll-auto ">
+                      {JSON.stringify(h?.original, null, 2)}
+                    </pre>
+                  </DialogContent>
+                </Dialog>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
