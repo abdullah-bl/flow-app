@@ -53,7 +53,7 @@ export default function UploadDocument({ target }: { target: string }) {
           &#43; Upload Document
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>Upload Document</DialogTitle>
           <DialogDescription>Upload a new document.</DialogDescription>

@@ -14,9 +14,9 @@ export default async function Settings({
     <div className="grid gap-4">
       <div className="flex items-center justify-between">
         <div className="grid gap-1">
-          <h3 className="text-2xl font-medium">Settings</h3>
+          <h3 className="text-2xl font-medium">General</h3>
           <p className="text-sm text-stone-500">
-            Manage the settings of this tender.
+            General settings of this tender.
           </p>
         </div>
       </div>

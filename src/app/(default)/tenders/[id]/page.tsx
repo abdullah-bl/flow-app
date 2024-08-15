@@ -62,9 +62,9 @@ export default async function TenderDetails({
           subtitle={
             tender.publish_date
               ? `Published ${daysBetween(
-                  tender.publish_date,
-                  new Date().toISOString()
-                )} days ago`
+                tender.publish_date,
+                new Date().toISOString()
+              )} days ago`
               : "Not available"
           }
           date={tender.publish_date}
@@ -75,9 +75,9 @@ export default async function TenderDetails({
           subtitle={
             tender.open_date
               ? `${daysBetween(
-                  tender.open_date,
-                  tender.publish_date
-                )} days after publish date`
+                tender.open_date,
+                tender.publish_date
+              )} days after publish date`
               : "Not available"
           }
           date={tender.open_date}
@@ -88,9 +88,9 @@ export default async function TenderDetails({
           subtitle={
             tender.award_date
               ? `${daysBetween(
-                  tender.award_date,
-                  tender.publish_date
-                )} days after publish date`
+                tender.award_date,
+                tender.publish_date
+              )} days after publish date`
               : "Not available"
           }
           date={tender.award_date}
@@ -133,9 +133,9 @@ export default async function TenderDetails({
               <span className="font-normal hover:font-medium select-none">
                 Scope of Work
               </span>
-              <Summarize content={tender.terms} />
+              {tender.scope && <Summarize content={tender.scope} />}
             </summary>
-            <Markdown className="p-2">
+            <Markdown className={"p-2 whitespace-pre-wrap"}>
               {tender.scope || "Not Available"}
             </Markdown>
           </details>
@@ -144,11 +144,13 @@ export default async function TenderDetails({
               <span className="font-normal hover:font-medium select-none">
                 Terms and Conditions
               </span>
-              <Summarize content={tender.terms} />
+              {tender.terms &&
+                <Summarize content={tender.terms} />
+              }
             </summary>
-            <Markdown className={"p-2"}>
+            <pre className={"p-2 whitespace-pre-wrap"}>
               {tender.terms || "Not Available"}
-            </Markdown>
+            </pre>
           </details>
         </div>
       </div>

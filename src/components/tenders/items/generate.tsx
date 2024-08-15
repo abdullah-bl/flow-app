@@ -117,7 +117,9 @@ export default function GeneratePricesDocuments({
     a.click()
   }
   return (
-    <Button variant={"outline"} onClick={handleGeneratePricesDocument}>
+    <Button variant={"outline"} onClick={handleGeneratePricesDocument}
+      disabled={items.length === 0}
+    >
       Generate Prices Document
     </Button>
   )
