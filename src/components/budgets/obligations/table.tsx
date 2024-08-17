@@ -17,7 +17,7 @@ export default function ObligationsTable({
 }: {
   obligations: Obligation[]
 }) {
-  return (
+  return obligations.length > 0 ? (
     <div className="border rounded-lg">
       <Table>
         <TableCaption>
@@ -68,6 +68,10 @@ export default function ObligationsTable({
           </TableRow>
         </TableFooter>
       </Table>
+    </div>
+  ) : (
+    <div className="border rounded-lg p-4">
+      <p className="text-stone-500 text-sm">No obligations found. yet!</p>
     </div>
   )
 }

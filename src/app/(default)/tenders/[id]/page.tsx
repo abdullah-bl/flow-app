@@ -1,6 +1,8 @@
 import Summarize from "@/components/ai/summrize"
 import DateCard from "@/components/custom/date.card"
+import { Item } from "@/components/custom/item"
 import UpdateStatus from "@/components/status/update"
+import { getContract } from "@/data/contracts"
 import { getTender } from "@/data/tenders"
 import { daysBetween, formatCurrency, formatDateTime } from "@/lib/utils"
 import { Tender } from "@/types"
@@ -8,9 +10,9 @@ import {
   IconBill,
   IconCalendar,
   IconCalendar2,
-  IconMoneybag,
   IconTrendingChart3,
 } from "@irsyadadl/paranoid"
+import { Link } from "next-view-transitions"
 
 import Markdown from "react-markdown"
 
@@ -23,8 +25,14 @@ export default async function TenderDetails({
   if (!tender) {
     return <div>Not found</div>
   }
+  const contract = await getContract(tender.id)
   return (
     <div className="grid gap-4 w-full">
+      {contract && (
+        <Item title="Contract" subtitle="Contract details for this tender.">
+          <Link href={`/contracts/${contract?.id}`}>View Contract &rarr;</Link>
+        </Item>
+      )}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         <div className="flex flex-col gap-2 p-3 rounded-lg border justify-between ">
           <IconBill width={22} height={22} />
@@ -62,9 +70,9 @@ export default async function TenderDetails({
           subtitle={
             tender.publish_date
               ? `Published ${daysBetween(
-                tender.publish_date,
-                new Date().toISOString()
-              )} days ago`
+                  tender.publish_date,
+                  new Date().toISOString()
+                )} days ago`
               : "Not available"
           }
           date={tender.publish_date}
@@ -75,9 +83,9 @@ export default async function TenderDetails({
           subtitle={
             tender.open_date
               ? `${daysBetween(
-                tender.open_date,
-                tender.publish_date
-              )} days after publish date`
+                  tender.open_date,
+                  tender.publish_date
+                )} days after publish date`
               : "Not available"
           }
           date={tender.open_date}
@@ -88,9 +96,9 @@ export default async function TenderDetails({
           subtitle={
             tender.award_date
               ? `${daysBetween(
-                tender.award_date,
-                tender.publish_date
-              )} days after publish date`
+                  tender.award_date,
+                  tender.publish_date
+                )} days after publish date`
               : "Not available"
           }
           date={tender.award_date}
@@ -111,22 +119,22 @@ export default async function TenderDetails({
         </div>
         <div className="grid grid-cols-2">
           <div className="flex flex-col gap-1">
-            <span className=" font-normal ">Number</span>
-            <span className="font-medium">
-              {tender.number || "Not Available"}
-            </span>
+            <span className="text-stone-600">Number</span>
+            <span className="">{tender.number || "Not Available"}</span>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="">Reference</span>
-            <span className="font-medium">
-              {tender.reference || "Not Available"}
+            <span className="text-stone-600">Reference</span>
+            <span className="">{tender.reference || "Not Available"}</span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-stone-600">Department</span>
+            <span className="">
+              {tender.expand?.department?.name || "Not Assigned"}
             </span>
           </div>
-          <div className="flex flex-col gap-1 col-span-2">
-            <span className="">Location</span>
-            <span className="font-medium">
-              {tender.location || "Not Available"}
-            </span>
+          <div className="flex flex-col gap-1 ">
+            <span className="text-stone-600">Location</span>
+            <span className="">{tender.location || "Not Available"}</span>
           </div>
           <details className=" col-span-2 py-1">
             <summary className="flex items-center gap-1">
@@ -135,22 +143,20 @@ export default async function TenderDetails({
               </span>
               {tender.scope && <Summarize content={tender.scope} />}
             </summary>
-            <Markdown className={"p-2 whitespace-pre-wrap"}>
+            <p className={"p-2 whitespace-pre-wrap"}>
               {tender.scope || "Not Available"}
-            </Markdown>
+            </p>
           </details>
           <details className=" col-span-2 py-1 w-full">
             <summary className="flex items-center gap-1 w-full">
               <span className="font-normal hover:font-medium select-none">
                 Terms and Conditions
               </span>
-              {tender.terms &&
-                <Summarize content={tender.terms} />
-              }
+              {tender.terms && <Summarize content={tender.terms} />}
             </summary>
-            <pre className={"p-2 whitespace-pre-wrap"}>
+            <p className={"p-2 whitespace-pre-wrap"}>
               {tender.terms || "Not Available"}
-            </pre>
+            </p>
           </details>
         </div>
       </div>

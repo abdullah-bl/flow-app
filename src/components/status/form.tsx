@@ -25,6 +25,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog"
 import { UpdateTargetStatus } from "@/actions/statuses"
+import { useToast } from "../ui/use-toast"
 
 export default function UpdateStatus({
   id,
@@ -38,20 +39,37 @@ export default function UpdateStatus({
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState(currentStatus?.id)
+  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      await UpdateTargetStatus({
-        target: `tenders-${id}`,
-        statusId: e.currentTarget.status.value,
-      })
+    const result = await UpdateTargetStatus({
+      target: `tenders-${id}`,
+      statusId: e.currentTarget.status.value,
+      note: e.currentTarget.note.value,
+    })
+    if (result?.data) {
       setOpen(false)
-    } catch (error) {
-      console.error(error)
-    } finally {
       setLoading(false)
+      toast({
+        title: "Status Updated",
+        description: "The status has been updated successfully.",
+      })
+    }
+    if (result?.validationErrors) {
+      console.log(result.validationErrors)
+      toast({
+        title: "Validation Error",
+        description: "Please check the form and try again.",
+      })
+    }
+    if (result?.serverError) {
+      toast({
+        title: "Server Error",
+        description:
+          "An error occured while updating the status. Please try again later.",
+      })
     }
   }
 
@@ -101,13 +119,13 @@ export default function UpdateStatus({
             {statuses.find((status) => status.id === selectedStatus)
               ?.description ?? ""}
           </span>
-          <Label htmlFor="comment">Comment</Label>
+          <Label htmlFor="note">Note</Label>
           <Textarea
             required
             minLength={5}
-            name="comment"
-            id="comment"
-            placeholder="Enter comment..."
+            name="note"
+            id="note"
+            placeholder="Write a note..."
             className="max-h-40"
           />
           <Button type="submit" variant={"default"}>

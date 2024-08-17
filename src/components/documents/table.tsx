@@ -33,7 +33,6 @@ export default function DocumentsTable({
     if (!confirm) return
     const form = new FormData(event.currentTarget)
     const result = await deleteDocument(form)
-    console.log(result)
     if (result?.data) {
       toast({
         title: "Document Deleted",
@@ -53,7 +52,7 @@ export default function DocumentsTable({
       })
     }
   }
-  return (
+  return documents.length > 0 ? (
     <div className="border rounded-lg">
       <Table>
         <TableCaption>A list of documents.</TableCaption>
@@ -106,8 +105,8 @@ export default function DocumentsTable({
                       defaultValue={pathname}
                       hidden
                     />
-                    <button type="submit" className="text-red-500 text-xs">
-                      <TrashIcon />
+                    <button type="submit" className="text-red-500 text-sm">
+                      Delete
                     </button>
                   </form>
                 )}
@@ -116,6 +115,10 @@ export default function DocumentsTable({
           ))}
         </TableBody>
       </Table>
+    </div>
+  ) : (
+    <div className="border rounded-lg p-4">
+      <p className="text-stone-500 text-sm">No documents found. yet!</p>
     </div>
   )
 }

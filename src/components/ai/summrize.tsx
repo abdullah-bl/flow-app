@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { generate } from "@/actions/ai"
 import { readStreamableValue } from "ai/rsc"
@@ -12,7 +12,7 @@ export default function Summarize({ content }: { content: string }) {
   const [summary, setSummary] = useState<string>("")
   const [loading, setLoading] = useState(false)
 
-  const summarize = async () => {
+  const summarize = useCallback(async () => {
     setLoading(true)
     const { output } = await generate(
       `content: ${content}`,
@@ -22,13 +22,13 @@ export default function Summarize({ content }: { content: string }) {
       setSummary((currentGeneration) => `${currentGeneration}${delta}`)
     }
     setLoading(false)
-  }
+  }, [content])
 
   useEffect(() => {
     if (open && summary.length === 0) {
       summarize()
     }
-  }, [open])
+  }, [open, summary, summarize])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

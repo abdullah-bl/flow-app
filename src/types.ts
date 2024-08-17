@@ -1,6 +1,13 @@
-import type { RecordModel } from "pocketbase"
+import type { AuthModel, RecordModel } from "pocketbase"
 
-export type User = RecordModel & {}
+export type User = RecordModel & {
+  username: string
+  name: string
+  email: string
+  role: string
+  department: string
+  verified: boolean
+}
 
 export type Department = RecordModel & {
   name: string
@@ -94,7 +101,25 @@ export type Comment = RecordModel & {
   }
 }
 
-export type Contract = RecordModel & {}
+export type Contract = RecordModel & {
+  name: string
+  cost: number
+  tender: string
+  user: string
+  members: string[]
+  status: string
+  start_date: string
+  end_date: string
+  duration: string
+  contract_doc: string
+  createdAt: string
+  updatedAt: string
+  expand?: {
+    user: User
+    tender: Tender
+    members: User[]
+  }
+}
 
 export type Document = RecordModel & {
   target: string
@@ -144,5 +169,20 @@ export type History = RecordModel & {
   createdAt: string
   expand?: {
     user: User
+  }
+}
+
+export type Invoice = RecordModel & {
+  budget: string
+  number: string
+  dueDate: string
+  amount: number
+  status: string
+  note: string
+  user: string
+  docs: string[]
+  expand?: {
+    user: User
+    budget: Budget
   }
 }

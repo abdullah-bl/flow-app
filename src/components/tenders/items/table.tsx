@@ -19,10 +19,11 @@ export default function ItemsTable({ items }: { items: TenderItem[] }) {
   const total = items.reduce(
     (acc, item) => acc + item.amount * item.quantity,
     0
-  ) // vat included
+  ) // total amount with vat included
   const vat_exclude = total / (1 + vat_rate) // vat excluded
-  const vat = (total / (1 + vat_rate)) * vat_rate // vat amount
-  return (
+  const vat_amount = total - vat_exclude // vat amount
+
+  return items.length > 0 ? (
     <div className="border rounded-lg" id="tender-items">
       <Table>
         {/* <TableCaption>A list of items in this tender.</TableCaption> */}
@@ -58,7 +59,7 @@ export default function ItemsTable({ items }: { items: TenderItem[] }) {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={6}>Total Amount (VAT Excluded)</TableCell>
+            <TableCell colSpan={6}>Subtotal</TableCell>
             <TableCell className="" colSpan={2}>
               {formatCurrency(vat_exclude)}
             </TableCell>
@@ -66,17 +67,21 @@ export default function ItemsTable({ items }: { items: TenderItem[] }) {
           <TableRow>
             <TableCell colSpan={6}>VAT ({vat_rate * 100}%)</TableCell>
             <TableCell className="" colSpan={2}>
-              {formatCurrency(vat)}
+              {formatCurrency(vat_amount)}
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={6}>Total Amount (VAT Included)</TableCell>
+            <TableCell colSpan={6}>Total (VAT Included)</TableCell>
             <TableCell className="" colSpan={2}>
               {formatCurrency(total)}
             </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
+    </div>
+  ) : (
+    <div className="border rounded-lg p-4">
+      <p className="text-stone-500 text-sm">No items found. yet!</p>
     </div>
   )
 }

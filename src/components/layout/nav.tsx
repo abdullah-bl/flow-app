@@ -1,6 +1,6 @@
 "use client"
 
-import { IconLayers2 } from "@irsyadadl/paranoid"
+import { IconLayers2, IconToolbox } from "@irsyadadl/paranoid"
 import { usePathname, useRouter } from "next/navigation"
 import {
   DropdownMenu,
@@ -37,7 +37,7 @@ export default function Navbar({ user }: { user: User }) {
     <nav className="flex mx-auto max-w-5xl w-full px-2 items-center flex-wrap py-3 gap-4 transition-all duration-75">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <IconLayers2 />
+          <IconToolbox />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-44">
           <DropdownMenuLabel>App Menu</DropdownMenuLabel>

@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { formatCurrency } from "@/lib/utils"
 import { TenderItem } from "@/types"
 import * as docx from "docx"
 
@@ -13,7 +14,6 @@ export default function GeneratePricesDocuments({
     event: React.FormEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
-    console.log("Generate prices document")
     const doc = new docx.Document({
       sections: [
         {
@@ -100,6 +100,27 @@ export default function GeneratePricesDocuments({
                       ],
                     })
                 ),
+                new docx.TableRow({
+                  children: [
+                    new docx.TableCell({
+                      children: [
+                        new docx.Paragraph("Total Amount (VAT Included)"),
+                      ],
+                      columnSpan: 4,
+                    }),
+                    new docx.TableCell({
+                      children: [
+                        new docx.Paragraph(
+                          formatCurrency(
+                            items
+                              .map((item) => item.amount * item.quantity)
+                              .reduce((a, b) => a + b, 0)
+                          )
+                        ),
+                      ],
+                    }),
+                  ],
+                }),
               ],
             }),
           ],
@@ -117,10 +138,12 @@ export default function GeneratePricesDocuments({
     a.click()
   }
   return (
-    <Button variant={"outline"} onClick={handleGeneratePricesDocument}
+    <Button
+      variant={"outline"}
+      onClick={handleGeneratePricesDocument}
       disabled={items.length === 0}
     >
-      Generate Prices Document
+      Generate
     </Button>
   )
 }

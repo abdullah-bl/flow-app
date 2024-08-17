@@ -101,7 +101,7 @@ export default function CreateTenderItem({ tenderId }: { tenderId: string }) {
               type="number"
               required
               placeholder="write the amount of the item"
-              min={0.01}
+              min={0.0}
               onChange={(e) => setAmount(Number(e.target.value))}
               pattern="\d+(\.\d{2})?"
               step={0.01}

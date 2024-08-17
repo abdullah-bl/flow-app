@@ -13,6 +13,7 @@ import { useState } from "react"
 import { readStreamableValue } from "ai/rsc"
 import { IconSparklesThree } from "@irsyadadl/paranoid"
 import { formatCurrency } from "@/lib/utils"
+import { Generate } from "../ai/generate"
 
 export default function CreateTenderForm() {
   const { toast } = useToast()
@@ -157,7 +158,12 @@ export default function CreateTenderForm() {
       />
       <div className="flex items-center justify-between">
         <Label htmlFor="scope">Scope of Work</Label>
-        <Button
+        <Generate
+          title="Generate"
+          value={form.scope}
+          setValue={(value) => setForm({ ...form, scope: value ?? "" })}
+        />
+        {/* <Button
           type="button"
           variant={"ghost"}
           size={"sm"}
@@ -167,7 +173,7 @@ export default function CreateTenderForm() {
         >
           <IconSparklesThree className="mr-2" width={18} height={18} />
           Generate Scope
-        </Button>
+        </Button> */}
       </div>
       <Textarea
         name="scope"

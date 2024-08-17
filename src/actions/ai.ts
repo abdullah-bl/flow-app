@@ -12,7 +12,7 @@ export async function generate(
 
   ;(async () => {
     const { textStream } = await streamText({
-      model: ollama("phi3:latest"),
+      model: ollama("qwen2:1.5b"),
       prompt: input,
       system: system,
       temperature: 0.5,
