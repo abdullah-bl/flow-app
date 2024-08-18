@@ -13,7 +13,7 @@ export default async function TenderItemsPage({
 }) {
   const items = await getTenderItems(id)
   const tender = await getTender(id)
-  const totalCost = items.reduce((acc, item) => acc + item.amount, 0)
+  const totalCost = items.reduce((acc, item) => acc + (item.amount * item.quantity), 0)
   const difference = totalCost - (tender?.cost ?? 0)
   return (
     <div className="grid gap-4">

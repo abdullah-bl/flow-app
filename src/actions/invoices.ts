@@ -11,7 +11,7 @@ export const create = authAction
     zfd.formData({
       number: zfd.numeric(),
       amount: zfd.numeric(),
-      budget: zfd.text().optional().default("o6pkvweizaj42gy"),
+      budget: zfd.text().optional().default("iqk38wealpd093d"),
       status: zfd.text().default("unpaid"),
       note: zfd.text().optional(),
       dueDate: zfd.text(),
